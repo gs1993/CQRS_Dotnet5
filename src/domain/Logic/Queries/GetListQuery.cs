@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Logic.Dtos;
-using Logic.Students;
+using Logic.Models;
 using Logic.Utils;
+using System.Data.SqlClient;
+using Dapper;
 
 namespace Logic.AppServices
 {
@@ -33,16 +35,13 @@ namespace Logic.AppServices
 	                    s.FirstCourseName Course1, s.FirstCourseCredits Course1Credits, s.FirstCourseGrade Course1Grade,
 	                    s.SecondCourseName Course2, s.SecondCourseCredits Course2Credits, s.SecondCourseGrade Course2Grade
                     FROM dbo.Student s
-                    WHERE (s.FirstCourseName = @Course
-		                    OR s.SecondCourseName = @Course
-		                    OR @Course IS NULL)
-                        AND (s.NumberOfEnrollments = @Number
-                            OR @Number IS NULL)
+                    WHERE (s.FirstCourseName = @Course  OR s.SecondCourseName = @Course OR @Course IS NULL)
+                        AND (s.NumberOfEnrollments = @Number OR @Number IS NULL)
                     ORDER BY s.StudentID ASC";
 
                 using (SqlConnection connection = new SqlConnection(_connectionString.Value))
                 {
-                    List<StudentDto> students = connection
+                    var students = connection
                         .Query<StudentDto>(sql, new
                         {
                             Course = query.EnrolledIn,

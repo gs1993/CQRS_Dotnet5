@@ -1,5 +1,6 @@
 ﻿using System;
 using CSharpFunctionalExtensions;
+using Logic.Models.Shared;
 
 namespace Logic.Students
 {

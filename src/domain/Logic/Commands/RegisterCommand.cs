@@ -1,10 +1,12 @@
 ﻿using System;
 using CSharpFunctionalExtensions;
 using Logic.Decorators;
+using Logic.Models;
+using Logic.Repositories;
 using Logic.Students;
 using Logic.Utils;
 
-namespace Logic.AppServices
+namespace Logic.Commands
 {
     public sealed class RegisterCommand : ICommand
     {

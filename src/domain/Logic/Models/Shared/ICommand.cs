@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 
-namespace Logic.Students
+namespace Logic.Models
 {
     public interface ICommand
     {

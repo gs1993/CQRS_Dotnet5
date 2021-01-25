@@ -1,33 +1,38 @@
 ﻿using System;
 using CSharpFunctionalExtensions;
+using Logic.Models;
+using Logic.Repositories;
 using Logic.Students;
 using Logic.Utils;
 
-namespace Logic.AppServices
+namespace Logic.Commands
 {
-    public sealed class EnrollCommand : ICommand
+    public sealed class TransferCommand : ICommand
     {
         public long Id { get; }
+        public int EnrollmentNumber { get; }
         public string Course { get; }
         public string Grade { get; }
 
-        public EnrollCommand(long id, string course, string grade)
+        public TransferCommand(long id, int enrollmentNumber, string course, string grade)
         {
             Id = id;
+            EnrollmentNumber = enrollmentNumber;
             Course = course;
             Grade = grade;
         }
 
-        internal sealed class EnrollCommandHandler : ICommandHandler<EnrollCommand>
+        internal sealed class TransferCommandHandler : ICommandHandler<TransferCommand>
         {
             private readonly SessionFactory _sessionFactory;
 
-            public EnrollCommandHandler(SessionFactory sessionFactory)
+            public TransferCommandHandler(SessionFactory sessionFactory)
             {
                 _sessionFactory = sessionFactory;
             }
 
-            public Result Handle(EnrollCommand command)
+
+            public Result Handle(TransferCommand command)
             {
                 var unitOfWork = new UnitOfWork(_sessionFactory);
                 var courseRepository = new CourseRepository(unitOfWork);
@@ -44,7 +49,11 @@ namespace Logic.AppServices
                 if (!success)
                     return Result.Fail($"Grade is incorrect: '{command.Grade}'");
 
-                student.Enroll(course, grade);
+                Enrollment enrollment = student.GetEnrollment(command.EnrollmentNumber);
+                if (enrollment == null)
+                    return Result.Fail($"No enrollment found with number '{command.EnrollmentNumber}'");
+
+                enrollment.Update(course, grade);
 
                 unitOfWork.Commit();
 

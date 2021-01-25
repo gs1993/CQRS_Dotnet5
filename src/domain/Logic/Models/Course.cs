@@ -1,4 +1,4 @@
-﻿namespace Logic.Students
+﻿namespace Logic.Models
 {
     public class Course : Entity
     {

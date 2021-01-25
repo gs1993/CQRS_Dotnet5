@@ -1,46 +1,39 @@
 ﻿using CSharpFunctionalExtensions;
-using Logic.Decorators;
+using Logic.Models;
+using Logic.Repositories;
 using Logic.Students;
 using Logic.Utils;
 
-namespace Logic.AppServices
+namespace Logic.Commands
 {
-    public sealed class EditPersonalInfoCommand : ICommand
+    public sealed class UnregisterCommand : ICommand
     {
         public long Id { get; }
-        public string Name { get; }
-        public string Email { get; }
 
-        public EditPersonalInfoCommand(long id, string name, string email)
+        public UnregisterCommand(long id)
         {
             Id = id;
-            Name = name;
-            Email = email;
         }
 
-        [AuditLog]
-        [DatabaseRetry]
-        internal sealed class EditPersonalInfoCommandHandler : ICommandHandler<EditPersonalInfoCommand>
+        internal sealed class UnregisterCommandHandler : ICommandHandler<UnregisterCommand>
         {
             private readonly SessionFactory _sessionFactory;
 
-            public EditPersonalInfoCommandHandler(SessionFactory sessionFactory)
+            public UnregisterCommandHandler(SessionFactory sessionFactory)
             {
                 _sessionFactory = sessionFactory;
             }
 
-            public Result Handle(EditPersonalInfoCommand command)
+
+            public Result Handle(UnregisterCommand command)
             {
                 var unitOfWork = new UnitOfWork(_sessionFactory);
                 var repository = new StudentRepository(unitOfWork);
                 Student student = repository.GetById(command.Id);
-
                 if (student == null)
                     return Result.Fail($"No student found for Id {command.Id}");
 
-                student.Name = command.Name;
-                student.Email = command.Email;
-
+                repository.Delete(student);
                 unitOfWork.Commit();
 
                 return Result.Ok();

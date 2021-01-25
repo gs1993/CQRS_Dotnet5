@@ -1,4 +1,6 @@
-﻿namespace Logic.Students
+﻿using Logic.Models;
+
+namespace Logic.Students
 {
     public class Enrollment : Entity
     {
@@ -6,17 +8,18 @@
         public virtual Course Course { get; protected set; }
         public virtual Grade Grade { get; protected set; }
 
+
         protected Enrollment()
         {
         }
 
         public Enrollment(Student student, Course course, Grade grade)
-            : this()
         {
             Student = student;
             Course = course;
             Grade = grade;
         }
+
 
         public virtual void Update(Course course, Grade grade)
         {

@@ -1,7 +1,4 @@
-﻿using System;
-using NHibernate.Proxy;
-
-namespace Logic.Students
+﻿namespace Logic.Models
 {
     public abstract class Entity
     {
@@ -15,7 +12,7 @@ namespace Logic.Students
             if (ReferenceEquals(this, other))
                 return true;
 
-            if (GetRealType() != other.GetRealType())
+            if (GetType() != other.GetType())
                 return false;
 
             if (Id == 0 || other.Id == 0)
@@ -42,12 +39,7 @@ namespace Logic.Students
 
         public override int GetHashCode()
         {
-            return (GetRealType().ToString() + Id).GetHashCode();
-        }
-
-        private Type GetRealType()
-        {
-            return NHibernateProxyHelper.GetClassWithoutInitializingProxy(this);
+            return (GetType().ToString() + Id).GetHashCode();
         }
     }
 }

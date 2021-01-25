@@ -1,6 +1,6 @@
 ﻿using System;
 using CSharpFunctionalExtensions;
-using Logic.Students;
+using Logic.Models.Shared;
 using Logic.Utils;
 
 namespace Logic.Decorators

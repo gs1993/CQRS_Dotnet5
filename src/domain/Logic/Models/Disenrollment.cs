@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logic.Models;
+using System;
 
 namespace Logic.Students
 {
@@ -9,12 +10,12 @@ namespace Logic.Students
         public virtual DateTime DateTime { get; protected set; }
         public virtual string Comment { get; protected set; }
 
+
         protected Disenrollment()
         {
         }
 
         public Disenrollment(Student student, Course course, string comment)
-            : this()
         {
             Student = student;
             Course = course;

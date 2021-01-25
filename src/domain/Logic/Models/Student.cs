@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logic.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,16 +16,17 @@ namespace Logic.Students
         private readonly IList<Disenrollment> _disenrollments = new List<Disenrollment>();
         public virtual IReadOnlyList<Disenrollment> Disenrollments => _disenrollments.ToList();
 
+
         protected Student()
         {
         }
 
         public Student(string name, string email)
-            : this()
         {
             Name = name;
             Email = email;
         }
+
 
         public virtual Enrollment GetEnrollment(int index)
         {
