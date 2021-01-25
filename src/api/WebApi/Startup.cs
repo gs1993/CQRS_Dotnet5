@@ -1,3 +1,5 @@
+using Logic.Students;
+using Logic.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,19 +21,18 @@ namespace WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddMvc();
+            services.AddMvc();
 
-            //var config = new Config(3); // Deserialize from appsettings.json
-            //services.AddSingleton(config);
+            var config = new Config(3); // Deserialize from appsettings.json
+            services.AddSingleton(config);
 
-            //var commandsConnectionString = new CommandsConnectionString(Configuration["ConnectionString"]);
-            //var queriesConnectionString = new QueriesConnectionString(Configuration["QueriesConnectionString"]);
-            //services.AddSingleton(commandsConnectionString);
-            //services.AddSingleton(queriesConnectionString);
+            services.AddSingleton(new CommandsConnectionString(Configuration["ConnectionString"]));
+            services.AddSingleton(new QueriesConnectionString(Configuration["QueriesConnectionString"]));
 
-            //services.AddSingleton<SessionFactory>();
-            //services.AddSingleton<Messages>();
+            services.AddSingleton<Messages>();
             //services.AddHandlers();
+
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -1,9 +1,8 @@
-﻿using Logic.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Logic.Students
+namespace Logic.Models
 {
     public class Student : Entity
     {

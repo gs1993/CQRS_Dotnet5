@@ -5,23 +5,17 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "src\api2\UI\UI.csproj", "{51B2B4EF-E9FE-4700-B8B8-6569D9B8BB22}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{937E5D49-13F7-4E72-8127-0A916CA9C894}"
-	ProjectSection(SolutionItems) = preProject
-		DatabaseInitial.sql = DatabaseInitial.sql
-		DatabaseReads.sql = DatabaseReads.sql
-	EndProjectSection
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{E386267B-50D1-4BA6-BFCC-1F46B688B7E6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "src\api", "{E386267B-50D1-4BA6-BFCC-1F46B688B7E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "src\api\WebApi\WebApi.csproj", "{92BCE459-36DC-4910-A394-BDE3941FE5AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "src\api\WebApi\WebApi.csproj", "{92BCE459-36DC-4910-A394-BDE3941FE5AE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{AC8A067E-5AAC-45FC-A91D-C443B4A5EF90}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "src\common", "{AC8A067E-5AAC-45FC-A91D-C443B4A5EF90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions", "src\common\Extensions\Extensions.csproj", "{30B867B4-720B-49C7-8E30-E2D8DC844257}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "src\common\Extensions\Extensions.csproj", "{30B867B4-720B-49C7-8E30-E2D8DC844257}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "domain", "domain", "{5EF8FEF2-260A-4B17-88DF-ACAEBE3AAE98}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "domain", "src\domain", "{5EF8FEF2-260A-4B17-88DF-ACAEBE3AAE98}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "src\domain\Logic\Logic.csproj", "{B75EED72-6A77-4214-A643-7461F13D110B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "src\domain\Logic\Logic.csproj", "{B75EED72-6A77-4214-A643-7461F13D110B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

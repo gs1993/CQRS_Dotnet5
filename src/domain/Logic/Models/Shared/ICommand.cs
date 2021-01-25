@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using System.Threading.Tasks;
 
 namespace Logic.Models
 {
@@ -9,7 +10,7 @@ namespace Logic.Models
     public interface ICommandHandler<TCommand>
         where TCommand : ICommand
     {
-        Result Handle(TCommand command);
+        Task<Result> Handle(TCommand command);
     }
 
 

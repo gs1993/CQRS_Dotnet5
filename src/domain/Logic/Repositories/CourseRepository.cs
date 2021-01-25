@@ -4,18 +4,20 @@ using Logic.Utils;
 
 namespace Logic.Repositories
 {
-    public sealed class CourseRepository
+    public interface ICourseRepository : IGenericRepository<Course>
     {
-        private readonly UnitOfWork _unitOfWork;
+        Course GetByName(string name);
+    }
 
-        public CourseRepository(UnitOfWork unitOfWork)
+    public sealed class CourseRepository : GenericRepository<Course>, ICourseRepository
+    {
+        public CourseRepository(EfDbContext context) : base(context)
         {
-            _unitOfWork = unitOfWork;
         }
 
         public Course GetByName(string name)
         {
-            return _unitOfWork.Query<Course>()
+            return _context.Set<Course>()
                 .SingleOrDefault(x => x.Name == name);
         }
     }

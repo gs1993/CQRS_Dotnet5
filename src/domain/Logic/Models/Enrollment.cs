@@ -1,6 +1,6 @@
 ﻿using Logic.Models;
 
-namespace Logic.Students
+namespace Logic.Models
 {
     public class Enrollment : Entity
     {

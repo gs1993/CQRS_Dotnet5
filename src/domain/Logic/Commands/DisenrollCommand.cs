@@ -3,6 +3,7 @@ using Logic.Models;
 using Logic.Repositories;
 using Logic.Students;
 using Logic.Utils;
+using System.Threading.Tasks;
 
 namespace Logic.Commands
 {
@@ -21,18 +22,16 @@ namespace Logic.Commands
 
         internal sealed class DisenrollCommandHandler : ICommandHandler<DisenrollCommand>
         {
-            private readonly SessionFactory _sessionFactory;
+            private readonly IGenericRepository<Student> _studentRepository;
 
-            public DisenrollCommandHandler(SessionFactory sessionFactory)
+            public DisenrollCommandHandler(IGenericRepository<Student> studentRepository)
             {
-                _sessionFactory = sessionFactory;
+                _studentRepository = studentRepository;
             }
 
-            public Result Handle(DisenrollCommand command)
+            public async Task Handle(DisenrollCommand command)
             {
-                var unitOfWork = new UnitOfWork(_sessionFactory);
-                var studentRepository = new StudentRepository(unitOfWork);
-                Student student = studentRepository.GetById(command.Id);
+                Student student = _studentRepository.Get(command.Id);
                 if (student == null)
                     return Result.Fail($"No student found for Id {command.Id}");
 
