@@ -1,12 +1,15 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
+using CSharpFunctionalExtensions;
 using Logic.Models;
 using Logic.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace Logic.Repositories
 {
     public interface ICourseRepository : IGenericRepository<Course>
     {
-        Course GetByName(string name);
+        Task<Maybe<Course>> GetByName(string name);
     }
 
     public sealed class CourseRepository : GenericRepository<Course>, ICourseRepository
@@ -15,10 +18,12 @@ namespace Logic.Repositories
         {
         }
 
-        public Course GetByName(string name)
+        public async Task<Maybe<Course>> GetByName(string name)
         {
-            return _context.Set<Course>()
-                .SingleOrDefault(x => x.Name == name);
+             var course = await _context.Set<Course>()
+                .FirstOrDefaultAsync(x => x.Name == name);
+
+            return course ?? Maybe<Course>.None;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Logic.Models;
+﻿using CSharpFunctionalExtensions;
 using Logic.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ namespace Logic.Repositories
     public interface IGenericRepository<T> where T : Entity
     {
         Task<IReadOnlyList<T>> GetAll();
-        Task<T> Get(long id);
+        Task<Maybe<T>> TryGet(long id);
         Task Insert(T obj);
         Task Update(T obj);
         Task Delete(long id);
@@ -31,9 +31,12 @@ namespace Logic.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<T> Get(long id)
+        public async Task<Maybe<T>> TryGet(long id)
         {
-            return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+            var entity = await _context.Set<T>()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return entity ?? Maybe<T>.None;
         }
 
         public async Task Insert(T obj)
@@ -53,9 +56,9 @@ namespace Logic.Repositories
             _context.Set<T>().Remove(existing);
         }
 
-        public async Task Save()
+        public Task Save()
         {
-            await _context.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSharpFunctionalExtensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,12 +28,12 @@ namespace Logic.Models
         }
 
 
-        public virtual Enrollment GetEnrollment(int index)
+        public virtual Maybe<Enrollment> GetEnrollment(int index)
         {
             if (_enrollments.Count > index)
                 return _enrollments[index];
 
-            return null;
+            return Maybe<Enrollment>.None;
         }
 
         public virtual void RemoveEnrollment(Enrollment enrollment, string comment)

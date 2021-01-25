@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using Logic.Models;
 using Logic.Repositories;
@@ -22,40 +23,42 @@ namespace Logic.Commands
             Grade = grade;
         }
 
+
         internal sealed class TransferCommandHandler : ICommandHandler<TransferCommand>
         {
-            private readonly SessionFactory _sessionFactory;
+            private readonly IGenericRepository<Student> _studentRepository;
+            private readonly ICourseRepository _courseRepository;
 
-            public TransferCommandHandler(SessionFactory sessionFactory)
+            public TransferCommandHandler(IGenericRepository<Student> studentRepository, ICourseRepository courseRepository)
             {
-                _sessionFactory = sessionFactory;
+                _studentRepository = studentRepository;
+                _courseRepository = courseRepository;
             }
 
 
-            public Result Handle(TransferCommand command)
+            public async Task<Result> Handle(TransferCommand command)
             {
-                var unitOfWork = new UnitOfWork(_sessionFactory);
-                var courseRepository = new CourseRepository(unitOfWork);
-                var studentRepository = new StudentRepository(unitOfWork);
-                Student student = studentRepository.GetById(command.Id);
-                if (student == null)
+                var studentResult = await _studentRepository.TryGet(command.Id);
+                if (studentResult.HasNoValue)
                     return Result.Fail($"No student found with Id '{command.Id}'");
 
-                Course course = courseRepository.GetByName(command.Course);
-                if (course == null)
+                var courseResult = await _courseRepository.GetByName(command.Course);
+                if (courseResult.HasNoValue)
                     return Result.Fail($"Course is incorrect: '{command.Course}'");
 
                 bool success = Enum.TryParse(command.Grade, out Grade grade);
                 if (!success)
                     return Result.Fail($"Grade is incorrect: '{command.Grade}'");
 
-                Enrollment enrollment = student.GetEnrollment(command.EnrollmentNumber);
-                if (enrollment == null)
+                var student = studentResult.Value;
+                var course = courseResult.Value;
+                var enrollmentResult = student.GetEnrollment(command.EnrollmentNumber);
+                if (enrollmentResult.HasNoValue)
                     return Result.Fail($"No enrollment found with number '{command.EnrollmentNumber}'");
 
-                enrollment.Update(course, grade);
+                enrollmentResult.Value.Update(course, grade);
 
-                unitOfWork.Commit();
+                await _studentRepository.Save();
 
                 return Result.Ok();
             }

@@ -1,4 +1,6 @@
-﻿namespace Logic.Models
+﻿using CSharpFunctionalExtensions;
+
+namespace Logic.Models
 {
     public class Course : Entity
     {

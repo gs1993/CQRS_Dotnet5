@@ -2,8 +2,7 @@
 using Logic.Decorators;
 using Logic.Models;
 using Logic.Repositories;
-using Logic.Students;
-using Logic.Utils;
+using System.Threading.Tasks;
 
 namespace Logic.Commands
 {
@@ -24,26 +23,24 @@ namespace Logic.Commands
         [DatabaseRetry]
         internal sealed class EditPersonalInfoCommandHandler : ICommandHandler<EditPersonalInfoCommand>
         {
-            private readonly SessionFactory _sessionFactory;
+            private readonly IGenericRepository<Student> _studentRepository;
 
-            public EditPersonalInfoCommandHandler(SessionFactory sessionFactory)
+            public EditPersonalInfoCommandHandler(IGenericRepository<Student> studentRepository)
             {
-                _sessionFactory = sessionFactory;
+                _studentRepository = studentRepository;
             }
 
-            public Result Handle(EditPersonalInfoCommand command)
+            public async Task<Result> Handle(EditPersonalInfoCommand command)
             {
-                var unitOfWork = new UnitOfWork(_sessionFactory);
-                var repository = new StudentRepository(unitOfWork);
-                Student student = repository.GetById(command.Id);
-
-                if (student == null)
+                var studentResult = await _studentRepository.TryGet(command.Id);
+                if (studentResult.HasNoValue)
                     return Result.Fail($"No student found for Id {command.Id}");
 
+                var student = studentResult.Value;
                 student.Name = command.Name;
                 student.Email = command.Email;
 
-                unitOfWork.Commit();
+                await _studentRepository.Save();
 
                 return Result.Ok();
             }
