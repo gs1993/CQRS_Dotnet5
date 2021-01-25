@@ -18,4 +18,10 @@
     <ProjectReference Include="..\..\common\Extensions\Extensions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\..\..\..\..\Windows\Microsoft.Net\assembly\GAC_MSIL\Newtonsoft.Json\v4.0_11.0.0.0__30ad4fe6b2a6aeed\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

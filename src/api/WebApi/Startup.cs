@@ -1,16 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebApi
 {
@@ -21,11 +14,24 @@ namespace WebApi
             Configuration = configuration;
         }
 
+
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddMvc();
+
+            //var config = new Config(3); // Deserialize from appsettings.json
+            //services.AddSingleton(config);
+
+            //var commandsConnectionString = new CommandsConnectionString(Configuration["ConnectionString"]);
+            //var queriesConnectionString = new QueriesConnectionString(Configuration["QueriesConnectionString"]);
+            //services.AddSingleton(commandsConnectionString);
+            //services.AddSingleton(queriesConnectionString);
+
+            //services.AddSingleton<SessionFactory>();
+            //services.AddSingleton<Messages>();
+            //services.AddHandlers();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -34,7 +40,7 @@ namespace WebApi
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -54,6 +60,8 @@ namespace WebApi
             {
                 endpoints.MapControllers();
             });
+
+            //app.UseMiddleware<ExceptionHandler>();
         }
     }
 }

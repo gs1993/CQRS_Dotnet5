@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Logic.Decorators;
-using Logic.Students;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Api.Utils
@@ -98,11 +96,11 @@ namespace Api.Utils
         {
             Type type = attribute.GetType();
 
-            if (type == typeof(DatabaseRetryAttribute))
-                return typeof(DatabaseRetryDecorator<>);
+            //if (type == typeof(DatabaseRetryAttribute))
+            //    return typeof(DatabaseRetryDecorator<>);
 
-            if (type == typeof(AuditLogAttribute))
-                return typeof(AuditLoggingDecorator<>);
+            //if (type == typeof(AuditLogAttribute))
+            //    return typeof(AuditLoggingDecorator<>);
 
             // other attributes go here
 
