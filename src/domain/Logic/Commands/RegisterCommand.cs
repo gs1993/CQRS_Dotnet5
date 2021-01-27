@@ -49,7 +49,7 @@ namespace Logic.Commands
                 {
                     var courseResult = await _courseRepository.GetByName(command.Course1);
                     if (courseResult.HasNoValue)
-                        return Result.Failure("Course not found");
+                        return Result.Failureure("Course not found");
 
                     student.Enroll(courseResult.Value, Enum.Parse<Grade>(command.Course1Grade));
                 }
@@ -58,7 +58,7 @@ namespace Logic.Commands
                 {
                     var courseResult = await _courseRepository.GetByName(command.Course2);
                     if (courseResult.HasNoValue)
-                        return Result.Failure("Course not found");
+                        return Result.Failureure("Course not found");
 
                     student.Enroll(courseResult.Value, Enum.Parse<Grade>(command.Course2Grade));
                 }
@@ -66,7 +66,7 @@ namespace Logic.Commands
                 await _studentRepository.Update(student);
                 await _studentRepository.Save();
 
-                return Result.Ok();
+                return Result.Success();
             }
         }
     }

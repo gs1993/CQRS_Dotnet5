@@ -32,9 +32,9 @@ namespace Logic.Commands
 
             public async Task<Result> Handle(EditPersonalInfoCommand command)
             {
-                var studentResult = await _studentRepository.TryGet(command.Id);
+                var studentResult = await _studentRepository.Get(command.Id);
                 if (studentResult.HasNoValue)
-                    return Result.Fail($"No student found for Id {command.Id}");
+                    return Result.Failure($"No student found for Id {command.Id}");
 
                 var student = studentResult.Value;
                 student.Name = command.Name;
@@ -42,7 +42,7 @@ namespace Logic.Commands
 
                 await _studentRepository.Save();
 
-                return Result.Ok();
+                return Result.Success();
             }
         }
     }

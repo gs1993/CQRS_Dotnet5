@@ -30,23 +30,23 @@ namespace Logic.Commands
 
             public async Task<Result> Handle(DisenrollCommand command)
             {
-                var studentResult = await _studentRepository.TryGet(command.Id);
+                var studentResult = await _studentRepository.Get(command.Id);
                 if (studentResult.HasNoValue)
-                    return Result.Fail($"No student found for Id {command.Id}");
+                    return Result.Failure($"No student found for Id {command.Id}");
 
                 var student = studentResult.Value;
                 if (string.IsNullOrWhiteSpace(command.Comment))
-                    return Result.Fail("Disenrollment comment is required");
+                    return Result.Failure("Disenrollment comment is required");
 
                 var enrollmentResult = student.GetEnrollment(command.EnrollmentNumber);
                 if (enrollmentResult.HasNoValue)
-                    return Result.Fail($"No enrollment found with number '{command.EnrollmentNumber}'");
+                    return Result.Failure($"No enrollment found with number '{command.EnrollmentNumber}'");
 
                 student.RemoveEnrollment(enrollmentResult.Value, command.Comment);
 
                 await _studentRepository.Save();
 
-                return Result.Ok();
+                return Result.Success();
             }
         }
     }

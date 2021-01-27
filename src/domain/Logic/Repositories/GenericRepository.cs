@@ -9,7 +9,7 @@ namespace Logic.Repositories
     public interface IGenericRepository<T> where T : Entity
     {
         Task<IReadOnlyList<T>> GetAll();
-        Task<Maybe<T>> TryGet(long id);
+        Task<Maybe<T>> Get(long id);
         Task Insert(T obj);
         Task Update(T obj);
         Task Delete(long id);
@@ -31,7 +31,7 @@ namespace Logic.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<Maybe<T>> TryGet(long id)
+        public async Task<Maybe<T>> Get(long id)
         {
             var entity = await _context.Set<T>()
                 .FirstOrDefaultAsync(x => x.Id == id);

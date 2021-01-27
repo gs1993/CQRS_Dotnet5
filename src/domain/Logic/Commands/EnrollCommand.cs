@@ -33,17 +33,17 @@ namespace Logic.Commands
 
             public async Task<Result> Handle(EnrollCommand command)
             {
-                var studentResult = await _studentRepository.TryGet(command.Id);
+                var studentResult = await _studentRepository.Get(command.Id);
                 if (studentResult.HasNoValue)
-                    return Result.Fail($"No student found with Id '{command.Id}'");
+                    return Result.Failure($"No student found with Id '{command.Id}'");
 
                 var courseResult = await _courseRepository.GetByName(command.Course);
                 if (courseResult.HasNoValue)
-                    return Result.Fail($"Course is incorrect: '{command.Course}'");
+                    return Result.Failure($"Course is incorrect: '{command.Course}'");
 
                 bool success = Enum.TryParse(command.Grade, out Grade grade);
                 if (!success)
-                    return Result.Fail($"Grade is incorrect: '{command.Grade}'");
+                    return Result.Failure($"Grade is incorrect: '{command.Grade}'");
 
                 var student = studentResult.Value;
                 var course = courseResult.Value;
@@ -51,7 +51,7 @@ namespace Logic.Commands
 
                 await _studentRepository.Save();
 
-                return Result.Ok();
+                return Result.Success();
             }
         }
     }

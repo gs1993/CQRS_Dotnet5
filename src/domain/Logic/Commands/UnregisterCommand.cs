@@ -26,14 +26,14 @@ namespace Logic.Commands
 
             public async Task<Result> Handle(UnregisterCommand command)
             {
-                var  studentResult = await _studentRepository.TryGet(command.Id);
+                var  studentResult = await _studentRepository.Get(command.Id);
                 if (studentResult.HasNoValue)
-                    return Result.Fail($"No student found for Id {command.Id}");
+                    return Result.Failure($"No student found for Id {command.Id}");
 
                 await _studentRepository.Delete(studentResult.Value.Id);
                 await _studentRepository.Save();
 
-                return Result.Ok();
+                return Result.Success();
             }
         }
     }
