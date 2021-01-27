@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using Logic.Models;
 
-namespace Logic.Students
+namespace Logic.Utils
 {
     public sealed class Messages
     {
@@ -14,6 +14,18 @@ namespace Logic.Students
             _provider = provider;
         }
 
+
+        public Result Dispatch(ICommand command)
+        {
+            Type type = typeof(ICommandHandler<>);
+            Type[] typeArgs = { command.GetType() };
+            Type handlerType = type.MakeGenericType(typeArgs);
+
+            dynamic handler = _provider.GetService(handlerType);
+            Result result = handler.Handle((dynamic)command);
+
+            return result;
+        }
 
         public async Task<Result> DispatchAsync(ICommand command)
         {
@@ -35,6 +47,18 @@ namespace Logic.Students
 
             dynamic handler = _provider.GetService(handlerType);
             T result = handler.Handle((dynamic)query);
+
+            return result;
+        }
+
+        public async Task<T> DispatchAsync<T>(IQuery<T> query)
+        {
+            Type type = typeof(IQueryHandler<,>);
+            Type[] typeArgs = { query.GetType(), typeof(T) };
+            Type handlerType = type.MakeGenericType(typeArgs);
+
+            dynamic handler = _provider.GetService(handlerType);
+            T result = await handler.Handle((dynamic)query);
 
             return result;
         }

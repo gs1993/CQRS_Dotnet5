@@ -1,4 +1,3 @@
-using Logic.Students;
 using Logic.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
