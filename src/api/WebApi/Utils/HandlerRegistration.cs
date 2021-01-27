@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Logic.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Api.Utils
