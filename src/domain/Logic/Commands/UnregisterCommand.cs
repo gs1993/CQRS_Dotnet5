@@ -3,6 +3,7 @@ using Logic.Models;
 using Logic.Repositories;
 using Logic.Students;
 using Logic.Utils;
+using System.Threading.Tasks;
 
 namespace Logic.Commands
 {
@@ -17,18 +18,11 @@ namespace Logic.Commands
 
         internal sealed class UnregisterCommandHandler : ICommandHandler<UnregisterCommand>
         {
-            private readonly SessionFactory _sessionFactory;
+            
 
-            public UnregisterCommandHandler(SessionFactory sessionFactory)
+
+            public async Task<Result> Handle(UnregisterCommand command)
             {
-                _sessionFactory = sessionFactory;
-            }
-
-
-            public Result Handle(UnregisterCommand command)
-            {
-                var unitOfWork = new UnitOfWork(_sessionFactory);
-                var repository = new StudentRepository(unitOfWork);
                 Student student = repository.GetById(command.Id);
                 if (student == null)
                     return Result.Fail($"No student found for Id {command.Id}");
