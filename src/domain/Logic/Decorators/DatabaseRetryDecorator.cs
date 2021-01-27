@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using Logic.Models.Shared;
+using Logic.Models;
 using Logic.Utils;
 
 namespace Logic.Decorators
 {
-    public sealed class DatabaseRetryDecorator<TCommand> : ICommandHandler<TCommand>
-        where TCommand : ICommand
+    public sealed class DatabaseRetryDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
     {
         private readonly ICommandHandler<TCommand> _handler;
         private readonly Config _config;
@@ -18,13 +18,13 @@ namespace Logic.Decorators
         }
 
 
-        public Result Handle(TCommand command)
+        public async Task<Result> Handle(TCommand command)
         {
             for (int i = 0; ; i++)
             {
                 try
                 {
-                    Result result = _handler.Handle(command);
+                    Result result = await _handler.Handle(command);
                     return result;
                 }
                 catch (Exception ex)

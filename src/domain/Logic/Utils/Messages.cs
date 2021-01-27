@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using Logic.Models;
 
@@ -13,14 +14,15 @@ namespace Logic.Students
             _provider = provider;
         }
 
-        public Result Dispatch(ICommand command)
+
+        public async Task<Result> DispatchAsync(ICommand command)
         {
             Type type = typeof(ICommandHandler<>);
             Type[] typeArgs = { command.GetType() };
             Type handlerType = type.MakeGenericType(typeArgs);
 
             dynamic handler = _provider.GetService(handlerType);
-            Result result = handler.Handle((dynamic)command);
+            Result result = await handler.Handle((dynamic)command);
 
             return result;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using Logic.Models.Shared;
+using Logic.Models;
 using Newtonsoft.Json;
 
 namespace Logic.Decorators
@@ -15,7 +16,8 @@ namespace Logic.Decorators
             _handler = handler;
         }
 
-        public Result Handle(TCommand command)
+
+        public Task<Result> Handle(TCommand command)
         {
             string commandJson = JsonConvert.SerializeObject(command);
 
@@ -24,5 +26,6 @@ namespace Logic.Decorators
 
             return _handler.Handle(command);
         }
+
     }
 }

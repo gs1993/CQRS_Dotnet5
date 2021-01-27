@@ -1,5 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using Logic.Models;
 
 namespace Logic.Models
 {

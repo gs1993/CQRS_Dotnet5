@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using Logic.Decorators;
 using Logic.Models;
 using Logic.Repositories;
-using Logic.Students;
-using Logic.Utils;
 
 namespace Logic.Commands
 {
@@ -32,34 +31,40 @@ namespace Logic.Commands
         [AuditLog]
         internal sealed class RegisterCommandHandler : ICommandHandler<RegisterCommand>
         {
-            private readonly SessionFactory _sessionFactory;
+            private readonly IGenericRepository<Student> _studentRepository;
+            private readonly ICourseRepository _courseRepository;
 
-            public RegisterCommandHandler(SessionFactory sessionFactory)
+            public RegisterCommandHandler(IGenericRepository<Student> studentRepository, ICourseRepository courseRepository)
             {
-                _sessionFactory = sessionFactory;
+                _studentRepository = studentRepository;
+                _courseRepository = courseRepository;
             }
 
-            public Result Handle(RegisterCommand command)
+
+            public async Task<Result> Handle(RegisterCommand command)
             {
-                var unitOfWork = new UnitOfWork(_sessionFactory);
-                var courseRepository = new CourseRepository(unitOfWork);
-                var studentRepository = new StudentRepository(unitOfWork);
                 var student = new Student(command.Name, command.Email);
 
                 if (command.Course1 != null && command.Course1Grade != null)
                 {
-                    Course course = courseRepository.GetByName(command.Course1);
-                    student.Enroll(course, Enum.Parse<Grade>(command.Course1Grade));
+                    var courseResult = await _courseRepository.GetByName(command.Course1);
+                    if (courseResult.HasNoValue)
+                        return Result.Failure("Course not found");
+
+                    student.Enroll(courseResult.Value, Enum.Parse<Grade>(command.Course1Grade));
                 }
 
                 if (command.Course2 != null && command.Course2Grade != null)
                 {
-                    Course course = courseRepository.GetByName(command.Course2);
-                    student.Enroll(course, Enum.Parse<Grade>(command.Course2Grade));
+                    var courseResult = await _courseRepository.GetByName(command.Course2);
+                    if (courseResult.HasNoValue)
+                        return Result.Failure("Course not found");
+
+                    student.Enroll(courseResult.Value, Enum.Parse<Grade>(command.Course2Grade));
                 }
 
-                studentRepository.Save(student);
-                unitOfWork.Commit();
+                await _studentRepository.Update(student);
+                await _studentRepository.Save();
 
                 return Result.Ok();
             }

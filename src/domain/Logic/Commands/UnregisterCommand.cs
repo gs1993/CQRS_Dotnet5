@@ -1,8 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Logic.Models;
 using Logic.Repositories;
-using Logic.Students;
-using Logic.Utils;
 using System.Threading.Tasks;
 
 namespace Logic.Commands
@@ -18,17 +16,22 @@ namespace Logic.Commands
 
         internal sealed class UnregisterCommandHandler : ICommandHandler<UnregisterCommand>
         {
-            
+            private readonly IGenericRepository<Student> _studentRepository;
+
+            public UnregisterCommandHandler(IGenericRepository<Student> studentRepository)
+            {
+                _studentRepository = studentRepository;
+            }
 
 
             public async Task<Result> Handle(UnregisterCommand command)
             {
-                Student student = repository.GetById(command.Id);
-                if (student == null)
+                var  studentResult = await _studentRepository.TryGet(command.Id);
+                if (studentResult.HasNoValue)
                     return Result.Fail($"No student found for Id {command.Id}");
 
-                repository.Delete(student);
-                unitOfWork.Commit();
+                await _studentRepository.Delete(studentResult.Value.Id);
+                await _studentRepository.Save();
 
                 return Result.Ok();
             }
