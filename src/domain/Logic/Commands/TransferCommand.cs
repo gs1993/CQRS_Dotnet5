@@ -52,7 +52,7 @@ namespace Logic.Commands
                 var course = courseResult.Value;
                 var enrollmentResult = student.GetEnrollment(command.EnrollmentNumber);
                 if (enrollmentResult.HasNoValue)
-                    return Result.Failureure($"No enrollment found with number '{command.EnrollmentNumber}'");
+                    return Result.Failure($"No enrollment found with number '{command.EnrollmentNumber}'");
 
                 enrollmentResult.Value.Update(course, grade);
 

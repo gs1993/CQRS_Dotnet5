@@ -1,3 +1,4 @@
+using Logic.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,14 @@ namespace UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            var config = new Config(3); // Deserialize from appsettings.json
+            services.AddSingleton(config);
+
+            services.AddSingleton(new CommandsConnectionString(Configuration["ConnectionString"]));
+            services.AddSingleton(new QueriesConnectionString(Configuration["QueriesConnectionString"]));
+
+            services.AddSingleton<Messages>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
