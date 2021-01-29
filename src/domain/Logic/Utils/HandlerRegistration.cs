@@ -116,7 +116,7 @@ namespace Logic.Utils
 
             Type typeDefinition = type.GetGenericTypeDefinition();
 
-            return typeDefinition == typeof(ICommandHandler<>) || typeDefinition == typeof(IQueryHandler<,>) || typeDefinition == typeof(IAsyncQueryHandler<,>);
+            return typeDefinition == typeof(ICommandHandler<>) || typeDefinition == typeof(IQueryHandler<,>);
         }
     }
 }

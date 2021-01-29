@@ -20,7 +20,7 @@ namespace Logic.AppServices
             NumberOfCourses = numberOfCourses;
         }
 
-        internal sealed class GetListQueryHandler : IAsyncQueryHandler<GetListQuery, List<StudentDto>>
+        internal sealed class GetListQueryHandler : IQueryHandler<GetListQuery, List<StudentDto>>
         {
             private readonly QueriesConnectionString _connectionString;
 
