@@ -2,12 +2,17 @@ version: '3'
 
 services:
   db:
+    build: .
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     ports:
       - 1433:1433
     environment:
       SA_PASSWORD: "Your_password123"
       ACCEPT_EULA: "Y"
+      MSSQL_DB: CqrsInPractice
+      MSSQL_USER: dev
+      MSSQL_PASSWORD: dev
+    container_name: mssqldev
     networks:
       - cqrstemplate
 
