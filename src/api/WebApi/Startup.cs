@@ -29,9 +29,7 @@ namespace WebApi
             services.AddSingleton(new QueriesConnectionString(Configuration["QueriesConnectionString"]));
 
             services.AddSingleton<Messages>();
-            //services.AddHandlers();
-
-
+            services.AddHandlers();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

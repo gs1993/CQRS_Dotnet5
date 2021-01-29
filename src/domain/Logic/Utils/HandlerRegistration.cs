@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Logic.Decorators;
+using Logic.Models;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Logic.Decorators;
-using Logic.Models;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Api.Utils
+namespace Logic.Utils
 {
     public static class HandlerRegistration
     {
@@ -116,7 +116,7 @@ namespace Api.Utils
 
             Type typeDefinition = type.GetGenericTypeDefinition();
 
-            return typeDefinition == typeof(ICommandHandler<>) || typeDefinition == typeof(IQueryHandler<,>);
+            return typeDefinition == typeof(ICommandHandler<>) || typeDefinition == typeof(IQueryHandler<,>) || typeDefinition == typeof(IAsyncQueryHandler<,>);
         }
     }
 }

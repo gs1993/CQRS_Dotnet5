@@ -5,6 +5,7 @@ using Logic.Models;
 using Logic.Utils;
 using System.Data.SqlClient;
 using Dapper;
+using System.Threading.Tasks;
 
 namespace Logic.AppServices
 {
@@ -19,7 +20,7 @@ namespace Logic.AppServices
             NumberOfCourses = numberOfCourses;
         }
 
-        internal sealed class GetListQueryHandler : IQueryHandler<GetListQuery, List<StudentDto>>
+        internal sealed class GetListQueryHandler : IAsyncQueryHandler<GetListQuery, List<StudentDto>>
         {
             private readonly QueriesConnectionString _connectionString;
 
@@ -28,7 +29,7 @@ namespace Logic.AppServices
                 _connectionString = connectionString;
             }
 
-            public List<StudentDto> Handle(GetListQuery query)
+            public async Task<List<StudentDto>> Handle(GetListQuery query)
             {
                 string sql = @"
                     SELECT s.StudentID Id, s.Name, s.Email,
@@ -41,15 +42,14 @@ namespace Logic.AppServices
 
                 using (SqlConnection connection = new SqlConnection(_connectionString.Value))
                 {
-                    var students = connection
-                        .Query<StudentDto>(sql, new
+                    var students = await connection
+                        .QueryAsync<StudentDto>(sql, new
                         {
                             Course = query.EnrolledIn,
                             Number = query.NumberOfCourses
-                        })
-                        .ToList();
+                        });
 
-                    return students;
+                    return students.ToList();
                 }
             }
         }

@@ -53,7 +53,7 @@ namespace Logic.Utils
 
         public async Task<T> DispatchAsync<T>(IQuery<T> query)
         {
-            Type type = typeof(IQueryHandler<,>);
+            Type type = typeof(IAsyncQueryHandler<,>);
             Type[] typeArgs = { query.GetType(), typeof(T) };
             Type handlerType = type.MakeGenericType(typeArgs);
 

@@ -28,6 +28,7 @@ namespace UI
             services.AddSingleton(new QueriesConnectionString(Configuration["QueriesConnectionString"]));
 
             services.AddSingleton<Messages>();
+            services.AddHandlers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
