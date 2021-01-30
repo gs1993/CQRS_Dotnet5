@@ -32,13 +32,10 @@ namespace Logic.AppServices
             public async Task<List<StudentDto>> Handle(GetListQuery query)
             {
                 string sql = @"
-                    SELECT s.StudentID Id, s.Name, s.Email,
-	                    s.FirstCourseName Course1, s.FirstCourseCredits Course1Credits, s.FirstCourseGrade Course1Grade,
-	                    s.SecondCourseName Course2, s.SecondCourseCredits Course2Credits, s.SecondCourseGrade Course2Grade
-                    FROM dbo.Student s
-                    WHERE (s.FirstCourseName = @Course  OR s.SecondCourseName = @Course OR @Course IS NULL)
-                        AND (s.NumberOfEnrollments = @Number OR @Number IS NULL)
-                    ORDER BY s.StudentID ASC";
+                    SELECT [Id], [Name], [Email], [Course1], [Course1Grade], [Course1Credits], [Course2], [Course2Grade], [Course2Credits]
+                    FROM [CqrsInPractice].[dbo].[StudentsView]
+                    WHERE (Course1 = @Course OR Course2 = @Course OR @Course IS NULL)
+                    ORDER BY Id ASC";
 
                 using (SqlConnection connection = new SqlConnection(_connectionString.Value))
                 {

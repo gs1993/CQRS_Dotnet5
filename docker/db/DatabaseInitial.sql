@@ -71,6 +71,52 @@ CREATE TABLE [dbo].[Student](
 GO
 SET IDENTITY_INSERT [dbo].[Course] ON 
 
+
+CREATE VIEW [dbo].[StudentsView]
+WITH SCHEMABINDING
+AS
+
+SELECT
+	s.StudentID as Id, 
+	s.[Name], 
+	s.Email,
+	c1.Course1,
+	c1.Course1Grade,
+	c1.Course1Credits,
+	c2.Course2,
+	c2.Course2Grade,
+	c2.Course2Credits
+FROM dbo.Student s
+OUTER APPLY  (
+		SELECT TOP 1
+			e.StudentID,
+			e.EnrollmentID,
+			c.[Name] as Course1,
+			c.Credits as Course1Credits,
+			e.Grade as Course1Grade
+		FROM dbo.Enrollment e
+		JOIN dbo.Course c ON c.CourseID = e.CourseID
+		WHERE s.StudentID = e.StudentID
+		ORDER BY c.CourseID
+	 ) c1
+OUTER APPLY  (
+		SELECT
+			e.StudentID,
+			e.EnrollmentID,
+			c.[Name] as Course2,
+			c.Credits as Course2Credits,
+			e.Grade as Course2Grade
+		FROM dbo.Enrollment e
+		JOIN dbo.Course c ON c.CourseID = e.CourseID
+		WHERE s.StudentID = e.StudentID
+		ORDER BY c.CourseID
+		OFFSET 1 ROWS FETCH NEXT 1 ROWS ONLY
+	 ) c2
+
+GO
+
+
+
 GO
 INSERT [dbo].[Course] ([CourseID], [Name], [Credits]) VALUES (1, N'Calculus', 3)
 GO
