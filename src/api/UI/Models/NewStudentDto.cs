@@ -18,11 +18,11 @@ namespace UI.Models
         [Required(ErrorMessage = "Name cannot be empty")]
         public string Course1 { get; set; }
 
-        public string Course1Grade { get; set; }
+        public Grade Course1Grade { get; set; }
 
         public string Course2 { get; set; }
 
-        public string Course2Grade { get; set; }
+        public Grade? Course2Grade { get; set; }
     }
 
     public enum Grade

@@ -9,5 +9,8 @@ namespace Logic.Utils
         public DbSet<Disenrollment> Disenrollments { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Student> Students { get; set; }
+
+
+        public EfDbContext(DbContextOptions<EfDbContext> contextOptions) : base(contextOptions) { }
     }
 }

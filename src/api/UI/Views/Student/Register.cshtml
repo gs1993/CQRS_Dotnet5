@@ -29,10 +29,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="Course1Grade" class="control-label"></label>
-                <input asp-for="Course1Grade" class="form-control"/>
+                @*<input asp-for="Course1Grade" class="form-control" />*@
+
+                <select asp-for="Course1Grade" asp-items="Html.GetEnumSelectList<Grade>()" class="form-control">
+                    <option selected="selected" value="">Select grade</option>
+                </select>
+
                 @*<select asp-for="Course1Grade" asp-items="Html.GetEnumSelectList<Grade>()" class="form-control">
-                    <option selected="selected" value="">Please select</option>
-                </select>*@
+            <option selected="selected" value="">Please select</option>
+        </select>*@
                 <span asp-validation-for="Course1Grade" class="text-danger"></span>
             </div>
             <div class="form-group">

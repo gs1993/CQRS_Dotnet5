@@ -4,7 +4,6 @@ using Logic.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using UI.Models;
-using UI.Utils;
 
 namespace UI.Controllers
 {
