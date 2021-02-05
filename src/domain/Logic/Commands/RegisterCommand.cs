@@ -40,6 +40,7 @@ namespace Logic.Commands
                 _courseRepository = courseRepository;
             }
 
+            public Type CommandType => typeof(RegisterCommand);
 
             public async Task<Result> Handle(RegisterCommand command)
             {

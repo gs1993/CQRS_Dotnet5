@@ -10,9 +10,9 @@ namespace WebApi.Controllers
     [Route("api/students")]
     public sealed class StudentController : BaseController
     {
-        private readonly Messages _messages;
+        private readonly Dispatcher _messages;
 
-        public StudentController(Messages messages)
+        public StudentController(Dispatcher messages)
         {
             _messages = messages;
         }

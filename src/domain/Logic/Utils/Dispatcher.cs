@@ -5,13 +5,16 @@ using Logic.Models;
 
 namespace Logic.Utils
 {
-    public sealed class Messages
+    public sealed class Dispatcher
     {
         private readonly IServiceProvider _provider;
+        private readonly ICommandHandlerExecutor _commandHandlerExecutor;
 
-        public Messages(IServiceProvider provider)
+        public Dispatcher(IServiceProvider provider, 
+            ICommandHandlerExecutor commandHandlerExecutor)
         {
             _provider = provider;
+            _commandHandlerExecutor = commandHandlerExecutor;
         }
 
 
@@ -27,16 +30,9 @@ namespace Logic.Utils
             return result;
         }
 
-        public async Task<Result> DispatchAsync(ICommand command)
+        public Task<Result> DispatchAsync(ICommand command)
         {
-            Type type = typeof(ICommandHandler<>);
-            Type[] typeArgs = { command.GetType() };
-            Type handlerType = type.MakeGenericType(typeArgs);
-
-            dynamic handler = _provider.GetService(handlerType);
-            Result result = await handler.Handle((dynamic)command);
-
-            return result;
+            return _commandHandlerExecutor.Execute(command);
         }
 
         public T Dispatch<T>(IQuery<T> query)

@@ -33,6 +33,7 @@ namespace Logic.Commands
                 _courseRepository = courseRepository;
             }
 
+            public Type CommandType => typeof(TransferCommand);
 
             public async Task<Result> Handle(TransferCommand command)
             {

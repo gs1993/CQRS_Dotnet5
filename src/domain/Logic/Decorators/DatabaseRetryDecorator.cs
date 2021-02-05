@@ -17,6 +17,7 @@ namespace Logic.Decorators
             _handler = handler;
         }
 
+        public Type CommandType => throw new NotImplementedException();
 
         public async Task<Result> Handle(TCommand command)
         {

@@ -2,6 +2,7 @@
 using Logic.Decorators;
 using Logic.Models;
 using Logic.Repositories;
+using System;
 using System.Threading.Tasks;
 
 namespace Logic.Commands
@@ -29,6 +30,8 @@ namespace Logic.Commands
             {
                 _studentRepository = studentRepository;
             }
+
+            public Type CommandType => typeof(EditPersonalInfoCommand);
 
             public async Task<Result> Handle(EditPersonalInfoCommand command)
             {

@@ -34,7 +34,7 @@ namespace WebApi
             services.AddTransient<IGenericRepository<Course>, GenericRepository<Course>>();
             services.AddTransient<ICourseRepository, CourseRepository>();
 
-            services.AddSingleton<Messages>();
+            services.AddSingleton<Dispatcher>();
             services.AddHandlers();
 
             services.AddControllers();
