@@ -24,7 +24,7 @@ Based on: [https://enterprisecraftsmanship.com/ps-cqrs](https://enterprisecrafts
 
 ## Setup
 
-1. Download [Docker](https://www.docker.com/products/docker-desktop)
+1. Download and install [Docker](https://www.docker.com/products/docker-desktop)
 2. Go to file [docker/docker-compose-mssql.yml](https://github.com/gs1993/TemplateCQRS/blob/master/docker/docker-compose-mssql.yml), change SA password and user credentials
 3. Execute command: `docker-compose -f docker-compose-mssql.yml up -d` in order to run Sql Server instance in docker container
 4. Go to folder [docker/](https://github.com/gs1993/TemplateCQRS/tree/master/docker) and execute create database script: ./entrypoint.sh - SA_password

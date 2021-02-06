@@ -9,9 +9,9 @@ namespace Logic.Decorators
     public sealed class DatabaseRetryDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
     {
         private readonly ICommandHandler<TCommand> _handler;
-        private readonly Config _config;
+        private readonly DatabaseSettings _config;
 
-        public DatabaseRetryDecorator(ICommandHandler<TCommand> handler, Config config)
+        public DatabaseRetryDecorator(ICommandHandler<TCommand> handler, DatabaseSettings config)
         {
             _config = config;
             _handler = handler;

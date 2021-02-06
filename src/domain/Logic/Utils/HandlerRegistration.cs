@@ -10,6 +10,13 @@ namespace Logic.Utils
 {
     public static class HandlerRegistration
     {
+        public static void RegisterDispatcher(this IServiceCollection services)
+        {
+            services.AddTransient<Dispatcher>();
+
+            services.AddHandlers();
+        }
+
         public static void AddHandlers(this IServiceCollection services)
         {
             List<Type> handlerTypes = typeof(ICommand).Assembly.GetTypes()

@@ -1,14 +1,9 @@
-using Logic.Commands;
-using Logic.Models;
-using Logic.Repositories;
 using Logic.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using static Logic.Commands.DisenrollCommand;
 
 namespace UI
 {
@@ -26,13 +21,10 @@ namespace UI
         {
             services.AddControllersWithViews();
 
-            var config = new Config(3); // Deserialize from appsettings.json
-            services.AddSingleton(config);
+            var databaseSettings = Configuration.BindSection<DatabaseSettings>("DatabaseSettings");
+            services.RegisterStudentHandlers(databaseSettings);
 
-            string commandConnectionString = Configuration["ConnectionString"];
-            string queryConnectionString = Configuration["QueriesConnectionString"];
-
-            services.RegisterStudentHandlers(commandConnectionString, queryConnectionString);
+            services.RegisterDispatcher();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

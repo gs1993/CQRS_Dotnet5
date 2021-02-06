@@ -27,5 +27,12 @@ namespace WebApi.Controllers
                 ? Ok() 
                 : Error(result.Error);
         }
+
+        protected IActionResult FromResult<T>(Result<T> result)
+        {
+            return result.IsSuccess
+                ? Ok(result.Value)
+                : Error(result.Error);
+        }
     }
 }

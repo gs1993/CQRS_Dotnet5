@@ -6,6 +6,7 @@ using Logic.Utils;
 using System.Data.SqlClient;
 using Dapper;
 using System.Threading.Tasks;
+using System;
 
 namespace Logic.AppServices
 {
@@ -22,11 +23,11 @@ namespace Logic.AppServices
 
         internal sealed class GetListQueryHandler : IQueryHandler<GetListQuery, IReadOnlyList<StudentDto>>
         {
-            private readonly QueriesConnectionString _connectionString;
+            private readonly string _connectionString;
 
-            public GetListQueryHandler(QueriesConnectionString connectionString)
+            public GetListQueryHandler(DatabaseSettings databaseSettings)
             {
-                _connectionString = connectionString;
+                _connectionString = databaseSettings.QueriesConnectionString ?? throw new ArgumentException(nameof(databaseSettings.QueriesConnectionString));
             }
 
             public async Task<IReadOnlyList<StudentDto>> Handle(GetListQuery query)
@@ -37,7 +38,7 @@ namespace Logic.AppServices
                     WHERE (Course1 = @Course OR Course2 = @Course OR @Course IS NULL)
                     ORDER BY Id ASC";
 
-                using (SqlConnection connection = new SqlConnection(_connectionString.Value))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     var students = await connection
                         .QueryAsync<StudentDto>(sql, new

@@ -4,6 +4,7 @@ using Logic.Dtos;
 using Logic.Models;
 using Logic.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using static Logic.AppServices.GetListQuery;
@@ -18,14 +19,13 @@ namespace Logic.Utils
 {
     public static class Extensions
     {
-        public static void RegisterStudentHandlers(this IServiceCollection services, string commandConnectionString, string queryConnectionString)
+        public static void RegisterStudentHandlers(this IServiceCollection services, DatabaseSettings databaseSettings)
         {
-            services.AddSingleton(new CommandsConnectionString(commandConnectionString));
-            services.AddSingleton(new QueriesConnectionString(queryConnectionString));
+            services.AddSingleton(databaseSettings);
 
             services.AddDbContext<EfDbContext>(options =>
             {
-                options.UseSqlServer(commandConnectionString);
+                options.UseSqlServer(databaseSettings.ConnectionString);
             });
 
             services.AddScoped<Dispatcher>();
@@ -44,6 +44,14 @@ namespace Logic.Utils
             services.AddScoped<ICommandHandler<EditPersonalInfoCommand>, EditPersonalInfoCommandHandler>();
 
             services.AddScoped<IQueryHandler<GetListQuery, IReadOnlyList<StudentDto>>, GetListQueryHandler>();
+        }
+
+        public static TModel BindSection<TModel>(this IConfiguration configuration, string section) where TModel : new()
+        {
+            var model = new TModel();
+            configuration.GetSection(section).Bind(model);
+
+            return model;
         }
     }
 }

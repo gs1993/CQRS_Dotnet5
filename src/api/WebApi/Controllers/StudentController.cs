@@ -1,5 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-using Logic.AppServices;
+﻿using Logic.AppServices;
 using Logic.Commands;
 using Logic.Dtos;
 using Logic.Utils;
@@ -29,7 +28,7 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterAsync([FromBody] NewStudentDto dto)
         {
-            Result result = await _dispatcher.Dispatch(new RegisterCommand(
+            var result = await _dispatcher.Dispatch(new RegisterCommand(
                 dto.Name, dto.Email,
                 dto.Course1, dto.Course1Grade,
                 dto.Course2, dto.Course2Grade));
@@ -40,7 +39,7 @@ namespace WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> UnregisterAsync(long id)
         {
-            Result result = await _dispatcher.Dispatch(new UnregisterCommand(id));
+            var result = await _dispatcher.Dispatch(new UnregisterCommand(id));
 
             return FromResult(result);
         }
@@ -48,7 +47,7 @@ namespace WebApi.Controllers
         [HttpPost("{id}/enrollments")]
         public async Task<IActionResult> EnrollAsync(long id, [FromBody] StudentEnrollmentDto dto)
         {
-            Result result = await _dispatcher.Dispatch(new EnrollCommand(id, dto.Course, dto.Grade));
+            var result = await _dispatcher.Dispatch(new EnrollCommand(id, dto.Course, dto.Grade));
 
             return FromResult(result);
         }
@@ -56,7 +55,7 @@ namespace WebApi.Controllers
         [HttpPut("{id}/enrollments/{enrollmentNumber}")]
         public async Task<IActionResult> TransferAsync(long id, int enrollmentNumber, [FromBody] StudentTransferDto dto)
         {
-            Result result = await _dispatcher.Dispatch(new TransferCommand(id, enrollmentNumber, dto.Course, dto.Grade));
+            var result = await _dispatcher.Dispatch(new TransferCommand(id, enrollmentNumber, dto.Course, dto.Grade));
 
             return FromResult(result);
         }
@@ -64,7 +63,7 @@ namespace WebApi.Controllers
         [HttpPost("{id}/enrollments/{enrollmentNumber}/deletion")]
         public async Task<IActionResult> DisenrollAsync(long id, int enrollmentNumber, [FromBody] StudentDisenrollmentDto dto)
         {
-            Result result = await _dispatcher.Dispatch(new DisenrollCommand(id, enrollmentNumber, dto.Comment));
+            var result = await _dispatcher.Dispatch(new DisenrollCommand(id, enrollmentNumber, dto.Comment));
 
             return FromResult(result);
         }
@@ -74,7 +73,7 @@ namespace WebApi.Controllers
         {
             var command = new EditPersonalInfoCommand(id, dto.Name, dto.Email);
 
-            Result result = await _dispatcher.Dispatch(command);
+            var result = await _dispatcher.Dispatch(command);
 
             return FromResult(result);
         }
