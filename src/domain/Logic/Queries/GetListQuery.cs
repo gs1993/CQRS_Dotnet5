@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Logic.AppServices
 {
-    public sealed class GetListQuery : IQuery<List<StudentDto>>
+    public sealed class GetListQuery : IQuery<IReadOnlyList<StudentDto>>
     {
         public string EnrolledIn { get; }
         public int? NumberOfCourses { get; }
@@ -20,7 +20,7 @@ namespace Logic.AppServices
             NumberOfCourses = numberOfCourses;
         }
 
-        internal sealed class GetListQueryHandler : IQueryHandler<GetListQuery, List<StudentDto>>
+        internal sealed class GetListQueryHandler : IQueryHandler<GetListQuery, IReadOnlyList<StudentDto>>
         {
             private readonly QueriesConnectionString _connectionString;
 
@@ -29,7 +29,7 @@ namespace Logic.AppServices
                 _connectionString = connectionString;
             }
 
-            public async Task<List<StudentDto>> Handle(GetListQuery query)
+            public async Task<IReadOnlyList<StudentDto>> Handle(GetListQuery query)
             {
                 string sql = @"
                     SELECT [Id], [Name], [Email], [Course1], [Course1Grade], [Course1Credits], [Course2], [Course2Grade], [Course2Credits]

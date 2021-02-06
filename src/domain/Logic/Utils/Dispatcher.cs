@@ -8,54 +8,39 @@ namespace Logic.Utils
     public sealed class Dispatcher
     {
         private readonly IServiceProvider _provider;
-        private readonly ICommandHandlerExecutor _commandHandlerExecutor;
 
-        public Dispatcher(IServiceProvider provider, 
-            ICommandHandlerExecutor commandHandlerExecutor)
+        public Dispatcher(IServiceProvider provider)
         {
             _provider = provider;
-            _commandHandlerExecutor = commandHandlerExecutor;
         }
 
 
-        public Result Dispatch(ICommand command)
+        public Task<Result> Dispatch<TCommand>(TCommand command) where TCommand : ICommand
         {
-            Type type = typeof(ICommandHandler<>);
-            Type[] typeArgs = { command.GetType() };
-            Type handlerType = type.MakeGenericType(typeArgs);
+            if (command is null)
+                throw new ArgumentNullException();
 
-            dynamic handler = _provider.GetService(handlerType);
-            Result result = handler.Handle((dynamic)command);
+            var commandType = command.GetType();
+            var handlerType = typeof(ICommandHandler<>).MakeGenericType(commandType);
 
-            return result;
+            var handler = (ICommandHandler<TCommand>)_provider.GetService(handlerType);
+            if (handler == null)
+                throw new Exception();
+
+          return handler.Handle(command);
         }
 
-        public Task<Result> DispatchAsync(ICommand command)
+        public async Task<T> Dispatch<T>(IQuery<T> query)
         {
-            return _commandHandlerExecutor.Execute(command);
-        }
+            if (query is null)
+                throw new ArgumentNullException();
 
-        public T Dispatch<T>(IQuery<T> query)
-        {
-            Type type = typeof(IQueryHandler<,>);
-            Type[] typeArgs = { query.GetType(), typeof(T) };
-            Type handlerType = type.MakeGenericType(typeArgs);
-
-            dynamic handler = _provider.GetService(handlerType);
-            T result = handler.Handle((dynamic)query);
-
-            return result;
-        }
-
-        public async Task<T> DispatchAsync<T>(IQuery<T> query)
-        {
-            Type type = typeof(IQueryHandler<,>);
-            Type[] typeArgs = { query.GetType(), typeof(T) };
-            Type handlerType = type.MakeGenericType(typeArgs);
+            var queryType = query.GetType();
+            var responseType = typeof(T);
+            var handlerType = typeof(IQueryHandler<,>).MakeGenericType(queryType, responseType);
 
             dynamic handler = _provider.GetService(handlerType);
             T result = await handler.Handle((dynamic)query);
-
             return result;
         }
     }

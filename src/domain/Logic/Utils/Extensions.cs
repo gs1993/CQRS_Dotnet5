@@ -1,8 +1,12 @@
-﻿using Logic.Commands;
+﻿using Logic.AppServices;
+using Logic.Commands;
+using Logic.Dtos;
 using Logic.Models;
 using Logic.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using static Logic.AppServices.GetListQuery;
 using static Logic.Commands.DisenrollCommand;
 using static Logic.Commands.EditPersonalInfoCommand;
 using static Logic.Commands.EnrollCommand;
@@ -24,22 +28,22 @@ namespace Logic.Utils
                 options.UseSqlServer(commandConnectionString);
             });
 
-            services.AddSingleton<Dispatcher>();
+            services.AddScoped<Dispatcher>();
 
-            services.AddTransient<IGenericRepository<Student>, GenericRepository<Student>>();
-            services.AddTransient<IGenericRepository<Course>, GenericRepository<Course>>();
-            services.AddTransient<ICourseRepository, CourseRepository>();
+            services.AddScoped<IGenericRepository<Student>, GenericRepository<Student>>();
+            services.AddScoped<IGenericRepository<Course>, GenericRepository<Course>>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
 
-            services.AddTransient<ICommandHandlerExecutor, CommandHandlerExecutor>();
+            services.AddScoped<ICommandHandlerExecutor, CommandHandlerExecutor>();
 
-            services.AddTransient<ICommandHandler<DisenrollCommand>, DisenrollCommandHandler>();
-            services.AddTransient<ICommandHandler<UnregisterCommand>, UnregisterCommandHandler>();
-            services.AddTransient<ICommandHandler<EnrollCommand>, EnrollCommandHandler>();
-            services.AddTransient<ICommandHandler<TransferCommand>, TransferCommandHandler>();
-            services.AddTransient<ICommandHandler<RegisterCommand>, RegisterCommandHandler>();
-            services.AddTransient<ICommandHandler<EditPersonalInfoCommand>, EditPersonalInfoCommandHandler>();
+            services.AddScoped<ICommandHandler<DisenrollCommand>, DisenrollCommandHandler>();
+            services.AddScoped<ICommandHandler<UnregisterCommand>, UnregisterCommandHandler>();
+            services.AddScoped<ICommandHandler<EnrollCommand>, EnrollCommandHandler>();
+            services.AddScoped<ICommandHandler<TransferCommand>, TransferCommandHandler>();
+            services.AddScoped<ICommandHandler<RegisterCommand>, RegisterCommandHandler>();
+            services.AddScoped<ICommandHandler<EditPersonalInfoCommand>, EditPersonalInfoCommandHandler>();
 
-            var aaaa = services.BuildServiceProvider().GetServices(typeof(ICommandHandler<ICommand>));
+            services.AddScoped<IQueryHandler<GetListQuery, IReadOnlyList<StudentDto>>, GetListQueryHandler>();
         }
     }
 }

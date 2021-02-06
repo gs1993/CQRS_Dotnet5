@@ -20,7 +20,7 @@ namespace UI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string enrolled, int? number)
         {
-            var list = await _messages.DispatchAsync(new GetListQuery(enrolled, number));
+            var list = await _messages.Dispatch(new GetListQuery(enrolled, number));
             return View(list);
         }
 
@@ -36,7 +36,7 @@ namespace UI.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            var result = await _messages.DispatchAsync(
+            var result = await _messages.Dispatch(
                 new RegisterCommand(dto.Name, dto.Email, dto.Course1, dto.Course1Grade.ToString(), dto.Course2, dto.Course2Grade?.ToString()));
 
             if (result.IsFailure)
