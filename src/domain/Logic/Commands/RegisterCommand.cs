@@ -64,7 +64,7 @@ namespace Logic.Commands
                     student.Enroll(courseResult.Value, Enum.Parse<Grade>(command.Course2Grade));
                 }
 
-                await _studentRepository.Update(student);
+                await _studentRepository.Insert(student);
                 await _studentRepository.Save();
 
                 return Result.Success();
