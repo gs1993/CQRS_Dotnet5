@@ -1,5 +1,3 @@
-using Logic.Models;
-using Logic.Repositories;
 using Logic.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,15 +25,9 @@ namespace WebApi
             var config = new Config(3); // Deserialize from appsettings.json
             services.AddSingleton(config);
 
-            services.AddSingleton(new CommandsConnectionString(Configuration["ConnectionString"]));
-            services.AddSingleton(new QueriesConnectionString(Configuration["QueriesConnectionString"]));
-
-            services.AddTransient<IGenericRepository<Student>, GenericRepository<Student>>();
-            services.AddTransient<IGenericRepository<Course>, GenericRepository<Course>>();
-            services.AddTransient<ICourseRepository, CourseRepository>();
-
-            services.AddSingleton<Dispatcher>();
-            services.AddHandlers();
+            string commandConnectionString = Configuration["ConnectionString"];
+            string queryConnectionString = Configuration["QueriesConnectionString"];
+            services.RegisterStudentHandlers(commandConnectionString, queryConnectionString);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
