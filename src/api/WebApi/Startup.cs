@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using WebApi.Utils;
 
 namespace WebApi
 {
@@ -57,7 +58,7 @@ namespace WebApi
                 endpoints.MapControllers();
             });
 
-            //app.UseMiddleware<ExceptionHandler>();
+            app.UseMiddleware<ExceptionHandler>();
         }
     }
 }
