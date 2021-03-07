@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Logic.Dtos;
 using Logic.Models;
 using Logic.Utils;
 using System.Data.SqlClient;
 using Dapper;
 using System.Threading.Tasks;
+using Dto.Student;
 
 namespace Logic.AppServices
 {

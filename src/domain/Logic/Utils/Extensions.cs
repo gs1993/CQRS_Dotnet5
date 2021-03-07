@@ -1,6 +1,6 @@
-﻿using Logic.AppServices;
+﻿using Dto.Student;
+using Logic.AppServices;
 using Logic.Commands;
-using Logic.Dtos;
 using Logic.Models;
 using Logic.Repositories;
 using Microsoft.EntityFrameworkCore;
