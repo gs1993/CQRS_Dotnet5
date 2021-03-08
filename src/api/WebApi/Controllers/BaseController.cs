@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
+using Dto.Common;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Utils;
 
 namespace WebApi.Controllers
 {

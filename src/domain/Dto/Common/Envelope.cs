@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebApi.Utils
+namespace Dto.Common
 {
     public class Envelope<T>
     {
