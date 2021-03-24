@@ -14,6 +14,11 @@ namespace WebApi.Utils
             ErrorMessage = errorMessage;
             TimeGenerated = DateTime.UtcNow;
         }
+
+        public static Envelope<T> Error(string errorMessage)
+        {
+            return new Envelope<T>(default, errorMessage);
+        }
     }
 
     public sealed class Envelope : Envelope<string>

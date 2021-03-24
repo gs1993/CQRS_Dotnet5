@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using WebApi.Utils;
 
 namespace WebApi
 {
@@ -21,13 +22,15 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddControllers();
 
             var databaseSettings = Configuration.BindSection<DatabaseSettings>("DatabaseSettings");
             services.RegisterStudentHandlers(databaseSettings);
 
             services.RegisterDispatcher();
 
-            services.AddControllers();
+            services.AddTransient<ExceptionHandlerMiddleware>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
@@ -39,7 +42,6 @@ namespace WebApi
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi v1"));
             }
@@ -48,14 +50,11 @@ namespace WebApi
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
+            app.UseCustomExceptionHandler();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-            //app.UseMiddleware<ExceptionHandler>();
         }
     }
 }

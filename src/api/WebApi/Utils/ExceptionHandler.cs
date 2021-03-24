@@ -19,7 +19,7 @@ namespace WebApi.Utils
         {
             try
             {
-                await _next(context);
+                await _next.Invoke(context);
             }
             catch (Exception ex)
             {

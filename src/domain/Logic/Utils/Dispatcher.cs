@@ -27,7 +27,7 @@ namespace Logic.Utils
             if (handler == null)
                 throw new Exception();
 
-          return handler.Handle(command);
+            return handler.Handle(command);
         }
 
         public async Task<T> Dispatch<T>(IQuery<T> query)

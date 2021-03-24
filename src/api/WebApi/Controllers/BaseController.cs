@@ -4,6 +4,7 @@ using WebApi.Utils;
 
 namespace WebApi.Controllers
 {
+    [ApiController]
     public class BaseController : Controller
     {
         protected new IActionResult Ok()
