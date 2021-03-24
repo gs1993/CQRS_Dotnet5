@@ -6,6 +6,14 @@ using Logic.Utils;
 
 namespace Logic.Decorators
 {
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+    public sealed class DatabaseRetryAttribute : Attribute
+    {
+        public DatabaseRetryAttribute()
+        {
+        }
+    }
+
     public sealed class DatabaseRetryDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
     {
         private readonly ICommandHandler<TCommand> _handler;
