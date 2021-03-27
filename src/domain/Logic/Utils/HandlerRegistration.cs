@@ -41,12 +41,12 @@ namespace Logic.Utils
                 .ToList();
 
             Type interfaceType = type.GetInterfaces().Single(y => IsHandlerInterface(y));
-            Func<IServiceProvider, object> factory = BuildPipeline(pipeline, interfaceType);
+            Func<IServiceProvider, object> factory = BuildPipeline(pipeline, interfaceType, attributes);
 
             services.AddTransient(interfaceType, factory);
         }
 
-        private static Func<IServiceProvider, object> BuildPipeline(List<Type> pipeline, Type interfaceType)
+        private static Func<IServiceProvider, object> BuildPipeline(List<Type> pipeline, Type interfaceType, object[] attributes)
         {
             List<ConstructorInfo> ctors = pipeline
                 .Select(x =>
@@ -64,7 +64,7 @@ namespace Logic.Utils
                 {
                     List<ParameterInfo> parameterInfos = ctor.GetParameters().ToList();
 
-                    object[] parameters = GetParameters(parameterInfos, current, provider);
+                    object[] parameters = GetParameters(parameterInfos, current, provider, attributes);
 
                     current = ctor.Invoke(parameters);
                 }
@@ -75,21 +75,25 @@ namespace Logic.Utils
             return func;
         }
 
-        private static object[] GetParameters(List<ParameterInfo> parameterInfos, object current, IServiceProvider provider)
+        private static object[] GetParameters(List<ParameterInfo> parameterInfos, object current, IServiceProvider provider, object[] attributes)
         {
             var result = new object[parameterInfos.Count];
 
             for (int i = 0; i < parameterInfos.Count; i++)
             {
-                result[i] = GetParameter(parameterInfos[i], current, provider);
+                result[i] = GetParameter(parameterInfos[i], current, provider, attributes);
             }
 
             return result;
         }
 
-        private static object GetParameter(ParameterInfo parameterInfo, object current, IServiceProvider provider)
+        private static object GetParameter(ParameterInfo parameterInfo, object current, IServiceProvider provider, object[] attributes)
         {
             Type parameterType = parameterInfo.ParameterType;
+
+            var decoratorAttribute = attributes?.FirstOrDefault(x => x.GetType() == parameterType);
+            if (decoratorAttribute != null)
+                return decoratorAttribute;
 
             if (IsHandlerInterface(parameterType))
                 return current;
@@ -110,6 +114,9 @@ namespace Logic.Utils
 
             if (type == typeof(AuditLogAttribute))
                 return typeof(AuditLoggingDecorator<>);
+
+            if (type == typeof(CacheAttribute))
+                return typeof(CacheDecorator<,>);
 
             // other attributes go here
 

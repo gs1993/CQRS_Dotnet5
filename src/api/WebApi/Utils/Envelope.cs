@@ -38,7 +38,7 @@ namespace WebApi.Utils
             return new Envelope(null);
         }
 
-        public static Envelope Error(string errorMessage)
+        public static new Envelope Error(string errorMessage)
         {
             return new Envelope(errorMessage);
         }

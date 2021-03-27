@@ -6,6 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WebApi.Utils;
+using Extensions;
+using Cache.Redis;
+using Cache;
+using Logic.Dtos;
+using System.Collections.Generic;
 
 namespace WebApi
 {
@@ -30,6 +35,10 @@ namespace WebApi
             services.RegisterDispatcher();
 
             services.AddTransient<ExceptionHandlerMiddleware>();
+
+            var registerSettings = Configuration.BindSection<RedisSettings>("RedisSettings");
+            services.RegisterRedis(registerSettings);
+            services.AddSingleton<ICacheService<IReadOnlyList<StudentDto>>, RedisCache<IReadOnlyList<StudentDto>>>(); //TODO: create autoregister
 
             services.AddSwaggerGen(c =>
             {
