@@ -9,9 +9,7 @@ namespace Logic.Decorators
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public sealed class AuditLogAttribute : Attribute
     {
-        public AuditLogAttribute()
-        {
-        }
+        public AuditLogAttribute() { }
     }
 
     public sealed class AuditLoggingDecorator<TCommand> : ICommandHandler<TCommand>
@@ -24,7 +22,7 @@ namespace Logic.Decorators
             _handler = handler;
         }
 
-        public Type CommandType => throw new NotImplementedException();
+        public Type CommandType => typeof(AuditLogAttribute);
 
         public Task<Result> Handle(TCommand command)
         {

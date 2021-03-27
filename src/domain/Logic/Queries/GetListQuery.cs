@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using Dapper;
 using System.Threading.Tasks;
 using System;
+using Logic.Decorators;
 
 namespace Logic.AppServices
 {
@@ -21,6 +22,7 @@ namespace Logic.AppServices
             NumberOfCourses = numberOfCourses;
         }
 
+        [Cache]
         internal sealed class GetListQueryHandler : IQueryHandler<GetListQuery, IReadOnlyList<StudentDto>>
         {
             private readonly string _connectionString;
@@ -38,17 +40,15 @@ namespace Logic.AppServices
                     WHERE (Course1 = @Course OR Course2 = @Course OR @Course IS NULL)
                     ORDER BY Id ASC";
 
-                using (SqlConnection connection = new SqlConnection(_connectionString))
-                {
-                    var students = await connection
-                        .QueryAsync<StudentDto>(sql, new
-                        {
-                            Course = query.EnrolledIn,
-                            Number = query.NumberOfCourses
-                        });
+                using var connection = new SqlConnection(_connectionString);
+                var students = await connection
+                    .QueryAsync<StudentDto>(sql, new
+                    {
+                        Course = query.EnrolledIn,
+                        Number = query.NumberOfCourses
+                    });
 
-                    return students.ToList();
-                }
+                return students.ToList();
             }
         }
     }

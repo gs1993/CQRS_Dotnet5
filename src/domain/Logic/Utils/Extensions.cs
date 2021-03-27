@@ -45,13 +45,5 @@ namespace Logic.Utils
 
             services.AddScoped<IQueryHandler<GetListQuery, IReadOnlyList<StudentDto>>, GetListQueryHandler>();
         }
-
-        public static TModel BindSection<TModel>(this IConfiguration configuration, string section) where TModel : new()
-        {
-            var model = new TModel();
-            configuration.GetSection(section).Bind(model);
-
-            return model;
-        }
     }
 }

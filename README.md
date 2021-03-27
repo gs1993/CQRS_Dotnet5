@@ -28,6 +28,7 @@ Based on: [https://enterprisecraftsmanship.com/ps-cqrs](https://enterprisecrafts
 2. Go to file [docker/docker-compose-mssql.yml](https://github.com/gs1993/TemplateCQRS/blob/master/docker/docker-compose-mssql.yml), change SA password and user credentials
 3. Execute command: `docker-compose -f docker-compose-mssql.yml up -d` in order to run Sql Server instance in docker container
 4. Go to folder [docker/](https://github.com/gs1993/TemplateCQRS/tree/master/docker) and execute create database script: ./entrypoint.sh - SA_password
+5. Execute command: `docker-compose -f docker-compose-redis.yml up -d` in order to run redis instance in docker container (in case of filesharing problems use [this](https://stackoverflow.com/questions/62215781/docker-compose-failed-to-build-filesharing-has-been-cancelled-eshoponcontain))
 
 ### UI (MVC)
 1. Go to [appsettings.json](https://github.com/gs1993/TemplateCQRS/blob/master/src/api/UI/appsettings.json) and set the connection string to WRITE DATABASE

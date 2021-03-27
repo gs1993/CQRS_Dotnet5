@@ -111,6 +111,9 @@ namespace Logic.Utils
             if (type == typeof(AuditLogAttribute))
                 return typeof(AuditLoggingDecorator<>);
 
+            if (type == typeof(CacheAttribute))
+                return typeof(CacheDecorator<,>);
+
             // other attributes go here
 
             throw new ArgumentException(attribute.ToString());

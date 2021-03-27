@@ -1,0 +1,17 @@
+version: '3'
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis/redis.conf:/redis.conf
+    command: [ "redis-server", "/redis.conf" ]
+    container_name: redisdev
+    networks:
+      - cqrstemplate
+
+
+networks:
+  cqrstemplate:
+    driver: bridge

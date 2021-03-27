@@ -44,10 +44,11 @@ namespace Logic.Repositories
             await _context.Set<T>().AddAsync(obj);
         }
 
-        public async Task Update(T obj)
+        public Task Update(T obj)
         {
             _context.Set<T>().Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
+            return Task.CompletedTask;
         }
 
         public async Task Delete(long id)
