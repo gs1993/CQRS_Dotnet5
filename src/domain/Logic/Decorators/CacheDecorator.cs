@@ -16,7 +16,7 @@ namespace Logic.Decorators
         {
             SlidingExpiration = TimeSpan.FromMinutes(slidingExpirationInMinutes);
             AbsoluteExpiration = TimeSpan.FromMinutes(absoluteExpirationInMinutes);
-        }
+    }
     }
 
     public sealed class CacheDecorator<TQuery, TResult> : IQueryHandler<TQuery, TResult> where TQuery : IQuery<TResult>
@@ -40,6 +40,7 @@ namespace Logic.Decorators
         public async Task<TResult> Handle(TQuery query)
         {
             var key = CreateCacheKey(query);
+
             var cacheResult = await _cacheService.TryGet(key);
             if (cacheResult != null)
                 return cacheResult;
