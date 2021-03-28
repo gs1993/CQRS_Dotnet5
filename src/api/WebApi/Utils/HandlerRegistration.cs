@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Logic.Decorators;
+using Logic.Decorators.Command;
 using Logic.Models;
 using Microsoft.Extensions.DependencyInjection;
 

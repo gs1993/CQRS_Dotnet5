@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using Dapper;
 using System.Threading.Tasks;
 using System;
-using Logic.Decorators;
+using Logic.Decorators.Query;
 
 namespace Logic.AppServices
 {

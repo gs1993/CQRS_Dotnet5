@@ -1,4 +1,5 @@
-﻿using Logic.Decorators;
+﻿using Logic.Decorators.Command;
+using Logic.Decorators.Query;
 using Logic.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;

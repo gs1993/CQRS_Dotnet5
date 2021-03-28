@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using Logic.Decorators;
+using Logic.Decorators.Command;
 using Logic.Models;
 using Logic.Repositories;
 using System;

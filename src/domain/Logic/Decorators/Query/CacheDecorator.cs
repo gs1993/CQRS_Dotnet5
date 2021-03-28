@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using Cache;
 
-namespace Logic.Decorators
+namespace Logic.Decorators.Query
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class CacheAttribute : Attribute
     {
         public TimeSpan SlidingExpiration { get; }
@@ -16,7 +16,7 @@ namespace Logic.Decorators
         {
             SlidingExpiration = TimeSpan.FromMinutes(slidingExpirationInMinutes);
             AbsoluteExpiration = TimeSpan.FromMinutes(absoluteExpirationInMinutes);
-    }
+        }
     }
 
     public sealed class CacheDecorator<TQuery, TResult> : IQueryHandler<TQuery, TResult> where TQuery : IQuery<TResult>

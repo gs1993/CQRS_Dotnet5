@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using Logic.Decorators;
+using Logic.Decorators.Command;
 using Logic.Models;
 using Logic.Repositories;
 

@@ -4,9 +4,9 @@ using CSharpFunctionalExtensions;
 using Logic.Models;
 using Newtonsoft.Json;
 
-namespace Logic.Decorators
+namespace Logic.Decorators.Command
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class AuditLogAttribute : Attribute
     {
         public AuditLogAttribute() { }

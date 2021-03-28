@@ -4,9 +4,9 @@ using CSharpFunctionalExtensions;
 using Logic.Models;
 using Logic.Utils;
 
-namespace Logic.Decorators
+namespace Logic.Decorators.Command
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class DatabaseRetryAttribute : Attribute
     {
         public DatabaseRetryAttribute() { }
