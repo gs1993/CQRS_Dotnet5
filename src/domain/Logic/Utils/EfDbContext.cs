@@ -1,4 +1,4 @@
-﻿using Logic.Models;
+﻿using Logic.Students.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Logic.Utils

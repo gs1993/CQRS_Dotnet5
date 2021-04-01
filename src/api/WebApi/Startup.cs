@@ -9,8 +9,8 @@ using WebApi.Utils;
 using Extensions;
 using Cache.Redis;
 using Cache;
-using Logic.Dtos;
 using System.Collections.Generic;
+using Logic.Students.Dtos;
 
 namespace WebApi
 {

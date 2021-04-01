@@ -1,6 +1,7 @@
-﻿using Logic.AppServices;
-using Logic.Commands;
-using Logic.Dtos;
+﻿using Logic.Students.Commands;
+using Logic.Students.Dtos;
+using Logic.Students.Queries;
+using Logic.Studentss.Commands;
 using Logic.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

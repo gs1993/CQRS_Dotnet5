@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Logic.Models
+namespace Logic.Students.Models
 {
     public class Student : Entity
     {

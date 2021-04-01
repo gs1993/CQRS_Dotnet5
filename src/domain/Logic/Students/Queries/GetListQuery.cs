@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Logic.Dtos;
-using Logic.Models;
 using Logic.Utils;
 using System.Data.SqlClient;
 using Dapper;
 using System.Threading.Tasks;
 using System;
-using Logic.Decorators.Query;
+using Logic.Students.Dtos;
+using Logic.Utils.Shared;
+using Logic.Utils.Decorators.Query;
 
-namespace Logic.AppServices
+namespace Logic.Students.Queries
 {
     public sealed class GetListQuery : IQuery<IReadOnlyList<StudentDto>>
     {

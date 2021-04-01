@@ -1,10 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
-using Logic.Models;
-using Logic.Repositories;
+using Logic.Students.Models;
+using Logic.Students.Repositories;
+using Logic.Utils.Shared;
 using System;
 using System.Threading.Tasks;
 
-namespace Logic.Commands
+namespace Logic.Students.Commands
 {
     public sealed class UnregisterCommand : ICommand
     {
@@ -28,7 +29,7 @@ namespace Logic.Commands
 
             public async Task<Result> Handle(UnregisterCommand command)
             {
-                var  studentResult = await _studentRepository.Get(command.Id);
+                var studentResult = await _studentRepository.Get(command.Id);
                 if (studentResult.HasNoValue)
                     return Result.Failure($"No student found for Id {command.Id}");
 

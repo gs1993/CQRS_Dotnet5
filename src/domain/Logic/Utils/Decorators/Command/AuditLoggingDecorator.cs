@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using Logic.Models;
+using Logic.Utils.Shared;
 using Newtonsoft.Json;
 
-namespace Logic.Decorators.Command
+namespace Logic.Utils.Decorators.Command
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class AuditLogAttribute : Attribute

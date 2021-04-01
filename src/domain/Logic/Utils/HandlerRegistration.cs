@@ -1,6 +1,6 @@
-﻿using Logic.Decorators.Command;
-using Logic.Decorators.Query;
-using Logic.Models;
+﻿using Logic.Utils.Decorators.Command;
+using Logic.Utils.Decorators.Query;
+using Logic.Utils.Shared;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Logic.Decorators.Command;
-using Logic.Models;
+using Logic.Utils.Decorators.Command;
+using Logic.Utils.Shared;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Api.Utils

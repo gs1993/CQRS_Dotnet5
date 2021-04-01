@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using System;
 
-namespace Logic.Models
+namespace Logic.Students.Models
 {
     public class Disenrollment : Entity
     {

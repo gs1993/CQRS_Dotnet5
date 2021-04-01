@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using Logic.Decorators.Command;
-using Logic.Models;
-using Logic.Repositories;
+using Logic.Students.Models;
+using Logic.Students.Repositories;
+using Logic.Utils.Decorators.Command;
+using Logic.Utils.Shared;
 
-namespace Logic.Commands
+namespace Logic.Students.Commands
 {
     public sealed class RegisterCommand : ICommand
     {

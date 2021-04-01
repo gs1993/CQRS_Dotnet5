@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using Logic.Models;
+using Logic.Students.Models;
 using Logic.Utils;
 using Microsoft.EntityFrameworkCore;
 
-namespace Logic.Repositories
+namespace Logic.Students.Repositories
 {
     public interface ICourseRepository : IGenericRepository<Course>
     {
@@ -19,8 +19,8 @@ namespace Logic.Repositories
 
         public async Task<Maybe<Course>> GetByName(string name)
         {
-             var course = await _context.Set<Course>()
-                .FirstOrDefaultAsync(x => x.Name == name);
+            var course = await _context.Set<Course>()
+               .FirstOrDefaultAsync(x => x.Name == name);
 
             return course ?? Maybe<Course>.None;
         }

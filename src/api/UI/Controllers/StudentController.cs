@@ -1,5 +1,5 @@
-﻿using Logic.AppServices;
-using Logic.Commands;
+﻿using Logic.Students.Commands;
+using Logic.Students.Queries;
 using Logic.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

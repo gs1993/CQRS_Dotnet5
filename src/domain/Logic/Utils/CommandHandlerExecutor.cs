@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using Logic.Models;
+using Logic.Utils.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;

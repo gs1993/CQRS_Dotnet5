@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Logic.Models
+namespace Logic.Utils.Shared
 {
     public interface IQuery<TResult>
     {

@@ -1,19 +1,20 @@
-﻿using Logic.AppServices;
-using Logic.Commands;
-using Logic.Dtos;
-using Logic.Models;
-using Logic.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
-using static Logic.AppServices.GetListQuery;
-using static Logic.Commands.DisenrollCommand;
-using static Logic.Commands.EditPersonalInfoCommand;
-using static Logic.Commands.EnrollCommand;
-using static Logic.Commands.RegisterCommand;
-using static Logic.Commands.TransferCommand;
-using static Logic.Commands.UnregisterCommand;
+using static Logic.Students.Queries.GetListQuery;
+using static Logic.Studentss.Commands.DisenrollCommand;
+using static Logic.Students.Commands.EditPersonalInfoCommand;
+using static Logic.Students.Commands.EnrollCommand;
+using static Logic.Students.Commands.RegisterCommand;
+using static Logic.Students.Commands.TransferCommand;
+using static Logic.Students.Commands.UnregisterCommand;
+using Logic.Students.Commands;
+using Logic.Students.Dtos;
+using Logic.Students.Models;
+using Logic.Students.Queries;
+using Logic.Students.Repositories;
+using Logic.Utils.Shared;
+using Logic.Studentss.Commands;
 
 namespace Logic.Utils
 {

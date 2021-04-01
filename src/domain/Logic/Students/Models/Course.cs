@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 
-namespace Logic.Models
+namespace Logic.Students.Models
 {
     public class Course : Entity
     {

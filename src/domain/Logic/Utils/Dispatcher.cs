@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using Logic.Models;
+using Logic.Utils.Shared;
 
 namespace Logic.Utils
 {

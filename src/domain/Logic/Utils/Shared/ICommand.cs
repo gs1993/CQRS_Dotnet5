@@ -2,13 +2,13 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Logic.Models
+namespace Logic.Utils.Shared
 {
     public interface ICommand
     {
     }
 
-    public interface ICommandHandler<ICommand> 
+    public interface ICommandHandler<ICommand>
     {
         Type CommandType { get; }
 

@@ -1,10 +1,10 @@
-﻿using Logic.Models;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Cache;
+using Logic.Utils.Shared;
 
-namespace Logic.Decorators.Query
+namespace Logic.Utils.Decorators.Query
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class CacheAttribute : Attribute
