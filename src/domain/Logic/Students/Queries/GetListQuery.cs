@@ -5,9 +5,9 @@ using System.Data.SqlClient;
 using Dapper;
 using System.Threading.Tasks;
 using System;
-using Logic.Students.Dtos;
 using Logic.Utils.Shared;
 using Logic.Utils.Decorators.Query;
+using Logic.Students.Models.Dtos;
 
 namespace Logic.Students.Queries
 {
