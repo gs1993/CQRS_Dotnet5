@@ -9,12 +9,12 @@ using static Logic.Students.Commands.RegisterCommand;
 using static Logic.Students.Commands.TransferCommand;
 using static Logic.Students.Commands.UnregisterCommand;
 using Logic.Students.Commands;
-using Logic.Students.Dtos;
 using Logic.Students.Models;
 using Logic.Students.Queries;
 using Logic.Students.Repositories;
 using Logic.Utils.Shared;
 using Logic.Studentss.Commands;
+using Logic.Students.Models.Dtos;
 
 namespace Logic.Utils
 {

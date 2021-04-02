@@ -1,5 +1,5 @@
 ﻿using Logic.Students.Commands;
-using Logic.Students.Dtos;
+using Logic.Students.Models.Dtos;
 using Logic.Students.Queries;
 using Logic.Studentss.Commands;
 using Logic.Utils;
