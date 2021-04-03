@@ -25,10 +25,10 @@ namespace Logic.Payments.Queries
 
     internal sealed class GetConversionRateQueryHandler : IQueryHandler<GetConversionRateQuery, Result<ConversionRateDto>>
     {
-        private readonly ICurrencyRate _currencyRateClient;
+        private readonly ICurrencyRateService _currencyRateClient;
         private readonly IDateTimeProvider _dateTimeProvider;
 
-        public GetConversionRateQueryHandler(ICurrencyRate currencyRateClient, IDateTimeProvider dateTimeProvider)
+        public GetConversionRateQueryHandler(ICurrencyRateService currencyRateClient, IDateTimeProvider dateTimeProvider)
         {
             _currencyRateClient = currencyRateClient;
             _dateTimeProvider = dateTimeProvider;

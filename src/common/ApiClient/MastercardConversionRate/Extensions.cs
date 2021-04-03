@@ -14,7 +14,7 @@ namespace ApiClient.MastercardConversionRate
 {
     public static class Extensions
     {
-        public static void AddMastercardApi(this IServiceCollection services, CurrencyRateApiConfig rateApiConfig)
+        public static void AddMastercardApi(this IServiceCollection services, MastercardApiConfig rateApiConfig)
         {
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
@@ -27,11 +27,18 @@ namespace ApiClient.MastercardConversionRate
             services.AddSingleton(rateApiConfig);
             services.AddScoped<RequestSignerHandler>();
 
-            services.AddRefitClient<ICurrencyRate>()
+            services.AddRefitClient<ICurrencyRateService>()
                 .ConfigureHttpClient(c =>
                 {
                     c.BaseAddress = new Uri(rateApiConfig.Url);
-                    c.Timeout = TimeSpan.FromSeconds(60);
+                    c.Timeout = TimeSpan.FromSeconds(rateApiConfig.CurrencyRateServiceTimeoutInSeconds);
+                }).AddHttpMessageHandler<RequestSignerHandler>();
+
+            services.AddRefitClient<ISettlementCurrenciesService>()
+                .ConfigureHttpClient(c =>
+                {
+                    c.BaseAddress = new Uri(rateApiConfig.Url);
+                    c.Timeout = TimeSpan.FromSeconds(rateApiConfig.SettlementCurrenciesServiceTimeoutInSeconds);
                 }).AddHttpMessageHandler<RequestSignerHandler>();
         }
 
@@ -40,7 +47,7 @@ namespace ApiClient.MastercardConversionRate
         {
             private readonly NetHttpClientSigner _signer;
 
-            public RequestSignerHandler(CurrencyRateApiConfig rateApiConfig, SigningKey signingKey)
+            public RequestSignerHandler(MastercardApiConfig rateApiConfig, SigningKey signingKey)
             {
                 _signer = new NetHttpClientSigner(rateApiConfig.ConsumerKey, signingKey.Key);
             }

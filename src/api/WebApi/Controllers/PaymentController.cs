@@ -33,5 +33,16 @@ namespace WebApi.Controllers
             var response = await _dispatcher.Dispatch(new GetConversionRateQuery(transactionAmount, transactionCurrency, billingCurrency));
             return FromResult(response);
         }
+
+        [HttpGet("settlement-currencies")]
+        [SwaggerOperation(Summary = "Get settlement currencies")]
+        [SwaggerResponse(StatusCodes.Status200OK, type: typeof(Envelope<SettlementCurrencyDto>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(Envelope))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, type: typeof(Envelope))]
+        public async Task<IActionResult> GetSettlementCurrencies()
+        {
+            var response = await _dispatcher.Dispatch(new GetSettlementCurrenciesQuery());
+            return FromResult(response);
+        }
     }
 }

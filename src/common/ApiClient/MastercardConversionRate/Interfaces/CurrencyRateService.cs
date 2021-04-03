@@ -3,11 +3,12 @@ using System.Threading.Tasks;
 
 namespace ApiClient.MastercardConversionRate.Interfaces
 {
-    public interface ICurrencyRate
+    public interface ICurrencyRateService
     {
         [Get("/conversion-rate")]
         Task<ConversionRateRequest> GetConversionRate(string fxDate, string transCurr, string crdhldBillCurr, decimal transAmt);
     }
+
 
     public record ConversionRateRequest
     {
