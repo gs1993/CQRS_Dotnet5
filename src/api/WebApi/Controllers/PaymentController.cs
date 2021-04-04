@@ -44,5 +44,16 @@ namespace WebApi.Controllers
             var response = await _dispatcher.Dispatch(new GetSettlementCurrenciesQuery());
             return FromResult(response);
         }
+
+        [HttpPost("pay-school-fee")]
+        [SwaggerOperation(Summary = "Get settlement currencies")]
+        [SwaggerResponse(StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(Envelope))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, type: typeof(Envelope))]
+        public async Task<IActionResult> PaySchoolFee()
+        {
+            var response = await _dispatcher.Dispatch(new GetSettlementCurrenciesQuery());
+            return FromResult(response);
+        }
     }
 }
