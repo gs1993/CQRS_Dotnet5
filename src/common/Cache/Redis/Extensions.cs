@@ -11,7 +11,6 @@ namespace Cache.Redis
                 string server = redisSettings.Server;
                 string port = redisSettings.Port;
                 options.Configuration = $"{server}:{port}";
-                //options.InstanceName = redisSettings.InstanceName;
             });
         }
     }

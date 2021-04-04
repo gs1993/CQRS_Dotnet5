@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using Logic.Students.Models;
-using Logic.Students.Repositories;
 using Logic.Utils.Shared;
+using TanvirArjel.EFCore.GenericRepository;
 
 namespace Logic.Students.Commands
 {
@@ -22,36 +22,32 @@ namespace Logic.Students.Commands
 
         internal sealed class EnrollCommandHandler : ICommandHandler<EnrollCommand>
         {
-            private readonly IGenericRepository<Student> _studentRepository;
-            private readonly ICourseRepository _courseRepository;
+            private readonly IRepository _repository;
 
-            public EnrollCommandHandler(IGenericRepository<Student> studentRepository, ICourseRepository courseRepository)
+            public EnrollCommandHandler(IRepository repository)
             {
-                _studentRepository = studentRepository;
-                _courseRepository = courseRepository;
+                _repository = repository;
             }
 
             public Type CommandType => typeof(EnrollCommand);
 
             public async Task<Result> Handle(EnrollCommand command)
             {
-                var studentResult = await _studentRepository.Get(command.Id);
-                if (studentResult.HasNoValue)
+                var student = await _repository.GetByIdAsync<Student>(command.Id);
+                if (student == null)
                     return Result.Failure($"No student found with Id '{command.Id}'");
 
-                var courseResult = await _courseRepository.GetByName(command.Course);
-                if (courseResult.HasNoValue)
+                var course = await _repository.GetAsync<Course>(c => c.Name == command.Course);
+                if (course == null)
                     return Result.Failure($"Course is incorrect: '{command.Course}'");
 
                 bool success = Enum.TryParse(command.Grade, out Grade grade);
                 if (!success)
                     return Result.Failure($"Grade is incorrect: '{command.Grade}'");
 
-                var student = studentResult.Value;
-                var course = courseResult.Value;
                 student.Enroll(course, grade);
 
-                await _studentRepository.Save();
+                await _repository.UpdateAsync(student);
 
                 return Result.Success();
             }

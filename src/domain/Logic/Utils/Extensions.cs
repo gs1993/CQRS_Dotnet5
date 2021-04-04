@@ -1,6 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using Logic.Students.Commands;
+using Logic.Students.Queries;
+using Logic.Utils.Shared;
+using Logic.Studentss.Commands;
+using Logic.Students.Models.Dtos;
 using static Logic.Students.Queries.GetListQuery;
 using static Logic.Studentss.Commands.DisenrollCommand;
 using static Logic.Students.Commands.EditPersonalInfoCommand;
@@ -8,19 +13,13 @@ using static Logic.Students.Commands.EnrollCommand;
 using static Logic.Students.Commands.RegisterCommand;
 using static Logic.Students.Commands.TransferCommand;
 using static Logic.Students.Commands.UnregisterCommand;
-using Logic.Students.Commands;
-using Logic.Students.Models;
-using Logic.Students.Queries;
-using Logic.Students.Repositories;
-using Logic.Utils.Shared;
-using Logic.Studentss.Commands;
-using Logic.Students.Models.Dtos;
+using TanvirArjel.EFCore.GenericRepository;
 
 namespace Logic.Utils
 {
     public static class Extensions
     {
-        public static void RegisterStudentHandlers(this IServiceCollection services, DatabaseSettings databaseSettings)
+        public static void RegisterDbContext(this IServiceCollection services, DatabaseSettings databaseSettings)
         {
             services.AddSingleton(databaseSettings);
 
@@ -29,11 +28,12 @@ namespace Logic.Utils
                 options.UseSqlServer(databaseSettings.ConnectionString);
             });
 
-            services.AddScoped<Dispatcher>();
+            services.AddGenericRepository<EfDbContext>();
+        }
 
-            services.AddScoped<IGenericRepository<Student>, GenericRepository<Student>>();
-            services.AddScoped<IGenericRepository<Course>, GenericRepository<Course>>();
-            services.AddScoped<ICourseRepository, CourseRepository>();
+        public static void RegisterStudentHandlers(this IServiceCollection services)
+        {
+            services.AddScoped<Dispatcher>();
 
             services.AddScoped<ICommandHandlerExecutor, CommandHandlerExecutor>();
 

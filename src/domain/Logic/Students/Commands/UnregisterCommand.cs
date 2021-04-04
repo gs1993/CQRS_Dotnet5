@@ -1,9 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using Logic.Students.Models;
-using Logic.Students.Repositories;
 using Logic.Utils.Shared;
 using System;
 using System.Threading.Tasks;
+using TanvirArjel.EFCore.GenericRepository;
 
 namespace Logic.Students.Commands
 {
@@ -18,23 +18,22 @@ namespace Logic.Students.Commands
 
         internal sealed class UnregisterCommandHandler : ICommandHandler<UnregisterCommand>
         {
-            private readonly IGenericRepository<Student> _studentRepository;
+            private readonly IRepository _repository;
 
-            public UnregisterCommandHandler(IGenericRepository<Student> studentRepository)
+            public UnregisterCommandHandler(IRepository repository)
             {
-                _studentRepository = studentRepository;
+                _repository = repository;
             }
 
             public Type CommandType => typeof(UnregisterCommand);
 
             public async Task<Result> Handle(UnregisterCommand command)
             {
-                var studentResult = await _studentRepository.Get(command.Id);
-                if (studentResult.HasNoValue)
+                var student = await _repository.GetByIdAsync<Student>(command.Id);
+                if (student == null)
                     return Result.Failure($"No student found for Id {command.Id}");
 
-                await _studentRepository.Delete(studentResult.Value.Id);
-                await _studentRepository.Save();
+                await _repository.DeleteAsync(student);
 
                 return Result.Success();
             }

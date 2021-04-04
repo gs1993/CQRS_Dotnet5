@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using Logic.Students.Models;
-using Logic.Students.Repositories;
 using Logic.Utils.Decorators.Command;
 using Logic.Utils.Shared;
+using TanvirArjel.EFCore.GenericRepository;
 
 namespace Logic.Students.Commands
 {
@@ -32,41 +32,41 @@ namespace Logic.Students.Commands
         [AuditLog]
         internal sealed class RegisterCommandHandler : ICommandHandler<RegisterCommand>
         {
-            private readonly IGenericRepository<Student> _studentRepository;
-            private readonly ICourseRepository _courseRepository;
+            private readonly IRepository _repository;
 
-            public RegisterCommandHandler(IGenericRepository<Student> studentRepository, ICourseRepository courseRepository)
+            public RegisterCommandHandler(IRepository repository)
             {
-                _studentRepository = studentRepository;
-                _courseRepository = courseRepository;
+                _repository = repository;
             }
 
             public Type CommandType => typeof(RegisterCommand);
 
             public async Task<Result> Handle(RegisterCommand command)
             {
-                var student = new Student(command.Name, command.Email);
+                var createSrudentResult = Student.Create(command.Name, command.Email);
+                if (createSrudentResult.IsFailure)
+                    return Result.Failure(createSrudentResult.Error);
 
+                var student = createSrudentResult.Value;
                 if (command.Course1 != null && command.Course1Grade != null)
                 {
-                    var courseResult = await _courseRepository.GetByName(command.Course1);
-                    if (courseResult.HasNoValue)
-                        return Result.Failure("Course not found");
+                    var course = await _repository.GetAsync<Course>(c => c.Name == command.Course1);
+                    if (course == null)
+                        return Result.Failure($"Course '{command.Course1}' not found");
 
-                    student.Enroll(courseResult.Value, Enum.Parse<Grade>(command.Course1Grade));
+                    student.Enroll(course, Enum.Parse<Grade>(command.Course1Grade));
                 }
 
                 if (command.Course2 != null && command.Course2Grade != null)
                 {
-                    var courseResult = await _courseRepository.GetByName(command.Course2);
-                    if (courseResult.HasNoValue)
-                        return Result.Failure("Course not found");
+                    var course = await _repository.GetAsync<Course>(c => c.Name == command.Course2);
+                    if (course == null)
+                        return Result.Failure($"Course '{command.Course2}' not found");
 
-                    student.Enroll(courseResult.Value, Enum.Parse<Grade>(command.Course2Grade));
+                    student.Enroll(course, Enum.Parse<Grade>(command.Course2Grade));
                 }
 
-                await _studentRepository.Insert(student);
-                await _studentRepository.Save();
+                var insertResult = await _repository.InsertAsync(student);
 
                 return Result.Success();
             }
