@@ -23,12 +23,21 @@ namespace Logic.Utils
         {
             services.AddSingleton(databaseSettings);
 
-            services.AddDbContext<EfDbContext>(options =>
+            services.AddDbContext<EfStudentDbContext>(options =>
             {
-                options.UseSqlServer(databaseSettings.ConnectionString);
+                options
+                    .UseSqlServer(databaseSettings.ConnectionString)
+                    .UseLazyLoadingProxies();
+            });
+            services.AddDbContext<EfPaymentDbContext>(options =>
+            {
+                options
+                    .UseSqlServer(databaseSettings.ConnectionString)
+                    .UseLazyLoadingProxies();
             });
 
-            services.AddGenericRepository<EfDbContext>();
+            services.AddGenericRepository<EfStudentDbContext>();
+            services.AddGenericRepository<EfPaymentDbContext>();
         }
 
         public static void RegisterStudentHandlers(this IServiceCollection services)

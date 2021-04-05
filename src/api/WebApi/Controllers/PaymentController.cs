@@ -1,4 +1,6 @@
 ﻿using ApiClient.MastercardConversionRate.Models.Dtos;
+using Logic.Payments.Commands;
+using Logic.Payments.Models.Dto;
 using Logic.Payments.Queries;
 using Logic.Utils;
 using Microsoft.AspNetCore.Http;
@@ -50,9 +52,9 @@ namespace WebApi.Controllers
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(Envelope))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, type: typeof(Envelope))]
-        public async Task<IActionResult> PaySchoolFee()
+        public async Task<IActionResult> PaySchoolFee([FromBody] PaySchoolFeeDto dto)
         {
-            var response = await _dispatcher.Dispatch(new GetSettlementCurrenciesQuery());
+            var response = await _dispatcher.Dispatch(new PaySchoolFeeCommand(dto.StudentId, dto.Amount, dto.Currency));
             return FromResult(response);
         }
     }

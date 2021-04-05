@@ -6,9 +6,28 @@ namespace Logic.Payments.Models
 {
     public class Payment : Entity
     {
-        public Student Student { get; set; }
-        public Money Amount { get; set; }
-        public DateTime Date { get; set; }
+        public Money Amount { get; }
+        public DateTime Date { get;  }
+        public Student Student { get; }
+
+        protected Payment() { }
+        private Payment(Money amount, DateTime date, Student student)
+        {
+            Amount = amount;
+            Date = date;
+            Student = student;
+        }
+
+        public static Result<Payment> Create(Money amount, DateTime date, Student student)
+        {
+            if (amount == null)
+                return Result.Failure<Payment>("Invalid amount");
+            if (student == null)
+                return Result.Failure<Payment>("Invalid student");
+
+            return Result.Success(new Payment(amount, date, student));
+        }
+
     }
 
     public class Student : Entity
@@ -20,10 +39,10 @@ namespace Logic.Payments.Models
     {
         public decimal Value { get; }
         public string Currency { get; }
+        
 
 
-        public Money() { } //TODO: zmienić na protected
-
+        protected Money() { }
         private Money(decimal value, string currency)
         {
             Value = value;

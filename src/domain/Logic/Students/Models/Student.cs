@@ -17,11 +17,11 @@ namespace Logic.Students.Models
         public virtual IReadOnlyList<Disenrollment> Disenrollments => _disenrollments.ToList();
 
 
-        private Student(string name, string email, IList<Enrollment> enrollments)
+        protected Student() { }
+        private Student(string name, string email)
         {
             Name = name;
             Email = email;
-            _enrollments = enrollments;
         }
 
 
@@ -29,7 +29,7 @@ namespace Logic.Students.Models
         {
 
 
-            return Result.Success(new Student(name, email, new List<Enrollment>()));
+            return Result.Success(new Student(name, email));
         }
 
 
