@@ -2,6 +2,7 @@
 using ApiClient.MastercardConversionRate.Models.Dtos;
 using CSharpFunctionalExtensions;
 using Extensions;
+using Logic.Utils.Decorators.Query;
 using Logic.Utils.Shared;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace Logic.Payments.Queries
         }
     }
 
+    [Retry(3)]
     internal sealed class GetConversionRateQueryHandler : IQueryHandler<GetConversionRateQuery, Result<ConversionRateDto>>
     {
         private readonly ICurrencyRateService _currencyRateClient;
