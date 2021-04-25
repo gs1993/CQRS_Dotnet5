@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Logic.Utils
 {
-    public class EfDbContext : DbContext
+    public class EfStudentDbContext : DbContext
     {
         public DbSet<Course> Courses { get; set; }
         public DbSet<Disenrollment> Disenrollments { get; set; }
@@ -11,6 +11,6 @@ namespace Logic.Utils
         public DbSet<Student> Students { get; set; }
 
 
-        public EfDbContext(DbContextOptions<EfDbContext> contextOptions) : base(contextOptions) { }
+        public EfStudentDbContext(DbContextOptions<EfStudentDbContext> contextOptions) : base(contextOptions) { }
     }
 }

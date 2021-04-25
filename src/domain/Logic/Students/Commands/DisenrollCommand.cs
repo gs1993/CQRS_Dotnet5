@@ -1,9 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using Logic.Students.Models;
-using Logic.Students.Repositories;
 using Logic.Utils.Shared;
 using System;
 using System.Threading.Tasks;
+using TanvirArjel.EFCore.GenericRepository;
 
 namespace Logic.Studentss.Commands
 {
@@ -23,22 +23,21 @@ namespace Logic.Studentss.Commands
 
         internal sealed class DisenrollCommandHandler : ICommandHandler<DisenrollCommand>
         {
-            private readonly IGenericRepository<Student> _studentRepository;
+            private readonly IRepository _repository;
 
-            public DisenrollCommandHandler(IGenericRepository<Student> studentRepository)
+            public DisenrollCommandHandler(IRepository repository)
             {
-                _studentRepository = studentRepository;
+                _repository = repository;
             }
 
             public Type CommandType => typeof(DisenrollCommand);
 
             public async Task<Result> Handle(DisenrollCommand command)
             {
-                var studentResult = await _studentRepository.Get(command.Id);
-                if (studentResult.HasNoValue)
+                var student = await _repository.GetByIdAsync<Student>(command.Id);
+                if (student == null)
                     return Result.Failure($"No student found for Id {command.Id}");
 
-                var student = studentResult.Value;
                 if (string.IsNullOrWhiteSpace(command.Comment))
                     return Result.Failure("Disenrollment comment is required");
 
@@ -48,7 +47,7 @@ namespace Logic.Studentss.Commands
 
                 student.RemoveEnrollment(enrollmentResult.Value, command.Comment);
 
-                await _studentRepository.Save();
+                await _repository.UpdateAsync(student);
 
                 return Result.Success();
             }

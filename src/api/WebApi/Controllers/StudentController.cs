@@ -1,5 +1,5 @@
 ﻿using Logic.Students.Commands;
-using Logic.Students.Dtos;
+using Logic.Students.Models.Dtos;
 using Logic.Students.Queries;
 using Logic.Studentss.Commands;
 using Logic.Utils;
@@ -57,7 +57,6 @@ namespace WebApi.Controllers
         public async Task<IActionResult> Unregister(long id)
         {
             var result = await _dispatcher.Dispatch(new UnregisterCommand(id));
-
             return FromResult(result);
         }
 
@@ -69,7 +68,6 @@ namespace WebApi.Controllers
         public async Task<IActionResult> Enroll(long id, [FromBody] StudentEnrollmentDto dto)
         {
             var result = await _dispatcher.Dispatch(new EnrollCommand(id, dto.Course, dto.Grade));
-
             return FromResult(result);
         }
 
@@ -81,7 +79,6 @@ namespace WebApi.Controllers
         public async Task<IActionResult> Transfer(long id, int enrollmentNumber, [FromBody] StudentTransferDto dto)
         {
             var result = await _dispatcher.Dispatch(new TransferCommand(id, enrollmentNumber, dto.Course, dto.Grade));
-
             return FromResult(result);
         }
 
@@ -105,7 +102,6 @@ namespace WebApi.Controllers
         public async Task<IActionResult> EditPersonalInfo(long id, [FromBody] StudentPersonalInfoDto dto)
         {
             var command = new EditPersonalInfoCommand(id, dto.Name, dto.Email);
-
             var result = await _dispatcher.Dispatch(command);
 
             return FromResult(result);

@@ -119,6 +119,9 @@ namespace Logic.Utils
             if (type == typeof(CacheAttribute))
                 return typeof(CacheDecorator<,>);
 
+            if (type == typeof(RetryAttribute))
+                return typeof(RetryDecorator<,>);
+
             // other attributes go here
 
             throw new ArgumentException(attribute.ToString());

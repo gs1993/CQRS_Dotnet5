@@ -17,14 +17,19 @@ namespace Logic.Students.Models
         public virtual IReadOnlyList<Disenrollment> Disenrollments => _disenrollments.ToList();
 
 
-        protected Student()
-        {
-        }
-
-        public Student(string name, string email)
+        protected Student() { }
+        private Student(string name, string email)
         {
             Name = name;
             Email = email;
+        }
+
+
+        public static Result<Student> Create(string name, string email)
+        {
+
+
+            return Result.Success(new Student(name, email));
         }
 
 

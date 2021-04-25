@@ -10,7 +10,9 @@ using Extensions;
 using Cache.Redis;
 using Cache;
 using System.Collections.Generic;
-using Logic.Students.Dtos;
+using Logic.Students.Models.Dtos;
+using ApiClient.MastercardConversionRate.Config;
+using ApiClient.MastercardConversionRate;
 
 namespace WebApi
 {
@@ -30,15 +32,19 @@ namespace WebApi
             services.AddControllers();
 
             var databaseSettings = Configuration.BindSection<DatabaseSettings>("DatabaseSettings");
-            services.RegisterStudentHandlers(databaseSettings);
+            services.RegisterDbContext(databaseSettings);
 
+            services.RegisterStudentHandlers();
             services.RegisterDispatcher();
 
             services.AddTransient<ExceptionHandlerMiddleware>();
 
             var registerSettings = Configuration.BindSection<RedisSettings>("RedisSettings");
             services.RegisterRedis(registerSettings);
-            services.AddSingleton<ICacheService<IReadOnlyList<StudentDto>>, RedisCache<IReadOnlyList<StudentDto>>>(); //TODO: create autoregister
+            services.AddSingleton<ICacheService<IReadOnlyList<StudentDto>>, RedisCache<IReadOnlyList<StudentDto>>>();
+
+            var currencyRateApiConfig = Configuration.BindSection<MastercardApiConfig>("MastercardApiConfig");
+            services.AddMastercardApi(currencyRateApiConfig);
 
             services.AddSwaggerGen(c =>
             {

@@ -1,10 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using Logic.Students.Models;
-using Logic.Students.Repositories;
 using Logic.Utils.Decorators.Command;
 using Logic.Utils.Shared;
 using System;
 using System.Threading.Tasks;
+using TanvirArjel.EFCore.GenericRepository;
 
 namespace Logic.Students.Commands
 {
@@ -25,26 +25,25 @@ namespace Logic.Students.Commands
         [DatabaseRetry]
         internal sealed class EditPersonalInfoCommandHandler : ICommandHandler<EditPersonalInfoCommand>
         {
-            private readonly IGenericRepository<Student> _studentRepository;
+            private readonly IRepository _repository;
 
-            public EditPersonalInfoCommandHandler(IGenericRepository<Student> studentRepository)
+            public EditPersonalInfoCommandHandler(IRepository repository)
             {
-                _studentRepository = studentRepository;
+                _repository = repository;
             }
 
             public Type CommandType => typeof(EditPersonalInfoCommand);
 
             public async Task<Result> Handle(EditPersonalInfoCommand command)
             {
-                var studentResult = await _studentRepository.Get(command.Id);
-                if (studentResult.HasNoValue)
+                var student = await _repository.GetByIdAsync<Student>(command.Id);
+                if (student == null)
                     return Result.Failure($"No student found for Id {command.Id}");
 
-                var student = studentResult.Value;
                 student.Name = command.Name;
                 student.Email = command.Email;
 
-                await _studentRepository.Save();
+                await _repository.UpdateAsync(student);
 
                 return Result.Success();
             }
