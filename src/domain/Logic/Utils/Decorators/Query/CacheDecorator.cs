@@ -41,13 +41,13 @@ namespace Logic.Utils.Decorators.Query
         {
             var key = CreateCacheKey(query);
 
-            var cacheResult = await _cacheService.TryGet(key);
-            if (cacheResult != null)
-                return cacheResult;
+            //var cacheResult = await _cacheService.TryGet(key);
+            //if (cacheResult != null)
+            //    return cacheResult;
 
             var handlerResult = await _handler.Handle(query);
-            if (handlerResult != null)
-                await _cacheService.Create(key, handlerResult, _slidingExpiration, _absoluteExpiration);
+            //if (handlerResult != null)
+            //    await _cacheService.Create(key, handlerResult, _slidingExpiration, _absoluteExpiration);
 
             return handlerResult;
         }

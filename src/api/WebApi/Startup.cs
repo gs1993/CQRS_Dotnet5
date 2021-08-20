@@ -43,8 +43,8 @@ namespace WebApi
             services.RegisterRedis(registerSettings);
             services.AddSingleton<ICacheService<IReadOnlyList<StudentDto>>, RedisCache<IReadOnlyList<StudentDto>>>();
 
-            var currencyRateApiConfig = Configuration.BindSection<MastercardApiConfig>("MastercardApiConfig");
-            services.AddMastercardApi(currencyRateApiConfig);
+            //var currencyRateApiConfig = Configuration.BindSection<MastercardApiConfig>("MastercardApiConfig");
+            //services.AddMastercardApi(currencyRateApiConfig);
 
             services.AddSwaggerGen(c =>
             {
