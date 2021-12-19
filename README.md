@@ -39,7 +39,3 @@ Based on: [https://enterprisecraftsmanship.com/ps-cqrs](https://enterprisecrafts
 1. Go to [appsettings.json](https://github.com/gs1993/TemplateCQRS/blob/master/src/api/WebApi/appsettings.json) and set the connection string to WRITE DATABASE
 2. Run UI from [dockerfile](https://github.com/gs1993/TemplateCQRS/blob/master/src/api/WebApi/Dockerfile) using command: docker-compose up --build.
 3. Go to app url: [http://localhost:5000](http://localhost:5000)
-
-<div class="text-blue mb-2">
-  .text-blue on white
-</div>
